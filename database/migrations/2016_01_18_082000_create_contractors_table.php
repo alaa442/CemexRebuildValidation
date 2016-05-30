@@ -24,8 +24,8 @@ class CreateContractorsTable extends Migration
             $table->string('Computer')->nullable();
             $table->string('Email', 150)->nullable();
             $table->date('Birthday')->nullable();
-            $table->integer('Tele1')->unique();
-            $table->integer('Tele2')->unique()->nullable();
+            $table->integer('Tele1')->unique()->unsigned();
+            $table->integer('Tele2')->unique()->nullable()->unsigned();
             $table->string('Job', 100)->nullable();
             $table->string('Class', 50)->nullable();
             $table->string('Phone_Type')->nullable();

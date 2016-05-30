@@ -25,6 +25,134 @@
 		echo $_COOKIE['FileError'];
 		echo "</div> </div>";
 	} 
+	if(!empty($_COOKIE['Project_NOErr'])) {	    
+		echo "<div id='Project_NOErr'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Project_NOErr'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Portland_Err'])) {	    
+		echo "<div id='Portland_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Portland_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Resisted__Err'])) {	    
+		echo "<div id='Resisted__Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Resisted__Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Eng_regex_Err'])) {	    
+		echo "<div id='Eng_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Eng_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Saed_regex_Err'])) {	    
+		echo "<div id='Saed_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Saed_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Fanar_regex_Err'])) {	    
+		echo "<div id='Fanar_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Fanar_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Workers_regex_Err'])) {	    
+		echo "<div id='Workers_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Workers_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Cement_regex_Err'])) {	    
+		echo "<div id='Cement_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Cement_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Bricks_regex_Err'])) {	    
+		echo "<div id='Bricks_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Bricks_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Steel_regex_Err'])) {	    
+		echo "<div id='Steel_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Steel_regex_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['wood_meters_Err'])) {	    
+		echo "<div id='wood_meters_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['wood_meters_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Wood_Consumption_Err'])) {	    
+		echo "<div id='Wood_Consumption_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Wood_Consumption_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['No_Of_Mixers_Err'])) {	    
+		echo "<div id='No_Of_Mixers_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['No_Of_Mixers_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Capital_Err'])) {	    
+	echo "<div id='Capital_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Capital_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['MixerErr'])) {	    
+	echo "<div id='MixerErr'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['MixerErr'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Has_WoodErr'])) {	    
+	echo "<div id='Has_WoodErr'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Has_WoodErr'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Has_SubErr'])) {	    
+	echo "<div id='Has_SubErr'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Has_SubErr'];
+		echo "</div> </div>";
+	} 
+
+	if(!empty($_COOKIE['Seller1_Err'])) {	    
+	echo "<div id='Seller1_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Seller1_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Seller2_Err'])) {	    
+	echo "<div id='Seller2_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Seller2_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Seller3_Err'])) {	    
+	echo "<div id='Seller3_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Seller3_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['Seller4_Err'])) {	    
+	echo "<div id='Seller4_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Seller4_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['sub1_Err'])) {	    
+	echo "<div id='sub1_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['sub1_Err'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['sub1_Err'])) {	    
+	echo "<div id='sub1_Err'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['sub1_Err'];
+		echo "</div> </div>";
+	} 
+	
+	if(!empty($_COOKIE['Call_StatusErr'])) {	    
+	echo "<div id='Call_StatusErr'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Call_StatusErr'];
+		echo "</div> </div>";
+	} 
+	if(!empty($_COOKIE['StatusErr'])) {	    
+	echo "<div id='StatusErr'><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['StatusErr'];
+		echo "</div> </div>";
+	} 
+
 
 ?>
 
@@ -36,70 +164,70 @@
 	<thead>
 	    <tr>
 
-		    <td>رقم المسلسل</td>
+		    <th>رقم المسلسل</th>
 
-		    <td>الحالة</td>
-		    <td>حالة المكالمة</td>
-		    <td>المنطقة</td>		    
-		    <td>تصنيف المقاول</td>
+		    <th>الحالة</th>
+		    <th>حالة المكالمة</th>
+		    <th>المنطقة</th>		    
+		    <th>تصنيف المقاول</th>
 		    
-		    <td>المهنة</td>
-		    <td>Area</td>
-		    <td>Gov</td>
-		    <td>Distric</td>
-		    <td>اللقب</td>
+		    <th>المهنة</th>
+		    <th>Area</th>
+		    <th>Gov</th>
+		    <th>Distric</th>
+		    <th>اللقب</th>
 
-		    <td>اسم المقاول</td>
-		    <td>Education</td>
-		    <td>اسم الشهرة</td>
-		    <td>الديانة</td>
+		    <th>اسم المقاول</th>
+		    <th>Education</th>
+		    <th>اسم الشهرة</th>
+		    <th>الديانة</th>
 
-		    <td>رقم التليفون 1</td>
-		    <td>رقم التليفون 2</td>
-		    <td>التليفون الارضي</td>
+		    <th>رقم التليفون 1</th>
+		    <th>رقم التليفون 2</th>
+		    <th>التليفون الارضي</th>
 
-		    <td>العنوان بالتفصيل</td>
-		    <td>Long</td>
-		    <td>Lat</td>
+		    <th>العنوان بالتفصيل</th>
+		    <th>Long</th>
+		    <th>Lat</th>
 
-		    <td>البريد الاليكتروني</td>
-		    <td>حساب الفيسبوك</td> 
-		    <td>هل يمتلك هاتف ذكي</td>
+		    <th>البريد الاليكتروني</th>
+		    <th>حساب الفيسبوك</th> 
+		    <th>هل يمتلك هاتف ذكي</th>
 		    
-		    <td>متوسط الاستهلاك "الاسمنت العادي"</td>
-		    <td>متوسط الاستهلاك "اسمنت المقاوم"</td>
-		    <td>متوسط الاستهلاك "اسمنت المهندس"</td>
-		    <td>متوسط الاستهلاك "اسمنت الصعيد"</td>
-		    <td>متوسط الاستهلاك "اسمنت الفنار"</td>
+		    <th>متوسط الاستهلاك "الاسمنت العادي"</th>
+		    <th>متوسط الاستهلاك "اسمنت المقاوم"</th>
+		    <th>متوسط الاستهلاك "اسمنت المهندس"</th>
+		    <th>متوسط الاستهلاك "اسمنت الصعيد"</th>
+		    <th>متوسط الاستهلاك "اسمنت الفنار"</th>
 
-		    <td>هل يكتلك كمبيوتر</td>
-		    <td>تاريخ الميلاد</td>
+		    <th>هل يمتلك كمبيوتر</th>
+		    <th>تاريخ الميلاد</th>
 
-		    <td>تاجر الاسمنت 1</td>
-		    <td>تاجر الاسمنت 2</td>
-		    <td>تاجر الاسمنت 3</td>
-		    <td>تاجر الاسمنت 4</td>
+		    <th>تاجر الاسمنت 1</th>
+		    <th>تاجر الاسمنت 2</th>
+		    <th>تاجر الاسمنت 3</th>
+		    <th>تاجر الاسمنت 4</th>
 
-		    <td>اسم المندوب</td>
+		    <th>اسم المندوب</th>
 
-		    <td>متوسط عدد المواقع في الشهر</td>
-		    <td>متوسط استهلاك الاسمنت</td>
-		    <td>متوسط استهلاك الطوب الاسمنتي</td>
-		    <td>متوسط اهالك من الخشب</td>
+		    <th>متوسط عدد المواقع في الشهر</th>
+		    <th>متوسط استهلاك الاسمنت</th>
+		    <th>متوسط استهلاك الطوب الاسمنتي</th>
+		    <th>متوسط اسهالك من الخشب</th>
 
-		    <td>متوسط استهلاك الحديد</td>
-		    <td>عدد العمال</td>
+		    <th>متوسط استهلاك الحديد</th>
+		    <th>عدد العمال</th>
 
-		    <td>هل يمتلك خشب</td>
-		    <td>امتار الخشب</td>
-		    <td>هل يمتلك خلاطة</td>
+		    <th>هل يمتلك خشب</th>
+		    <th>امتار الخشب</th>
+		    <th>هل يمتلك خلاطة</th>
 
-		    <td>عدد الخلاطات</td>
-		    <td>رأس المال</td>
-		    <td>طريقة الدفع</td>
-		    <td>هل يتعامل مع مقاولين من الباطن</td>		   
+		    <th>عدد الخلاطات</th>
+		    <th>رأس المال</th>
+		    <th>طريقة الدفع</th>
+		    <th>هل يتعامل مع مقاولين من الباطن</th>		   
 		      
-		    <td>ملاحظات</td>
+		    <th>ملاحظات</th>
 		</tr>
 	</thead>
 

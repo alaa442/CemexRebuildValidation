@@ -15,29 +15,29 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('Review_Id');
 
-            $table->string('Long', 500)->nullable();
-            $table->string('Lat', 500)->nullable();
+            $table->float('Long')->nullable();
+            $table->float('Lat')->nullable();
 
-            $table->string('Project_NO')->nullable();
-            $table->string('Portland_Cement')->nullable();
-            $table->string('Resisted_Cement')->nullable();
-            $table->string('Eng_Cement')->nullable();
-            $table->string('Saed_Cement')->nullable();
-            $table->string('Fanar_Cement')->nullable(); 
-            $table->string('Workers')->nullable();            
-            $table->string('Cement_Consuption')->nullable();
-            $table->string('Cement_Bricks')->nullable();
-            $table->string('Steel_Consumption')->nullable();
+            $table->integer('Project_NO')->nullable()->unsigned();
+            $table->integer('Portland_Cement')->nullable()->unsigned();
+            $table->integer('Resisted_Cement')->nullable()->unsigned();
+            $table->integer('Eng_Cement')->nullable()->unsigned();
+            $table->integer('Saed_Cement')->nullable()->unsigned();
+            $table->integer('Fanar_Cement')->nullable()->unsigned(); 
+            $table->integer('Workers')->nullable()->unsigned();            
+            $table->integer('Cement_Consuption')->nullable()->unsigned();
+            $table->integer('Cement_Bricks')->nullable()->unsigned();
+            $table->integer('Steel_Consumption')->nullable()->unsigned();
 
             $table->string('Has_Wood')->nullable();
 
-            $table->string('Wood_Meters')->nullable();
-            $table->string('Wood_Consumption')->nullable();
+            $table->integer('Wood_Meters')->nullable()->unsigned();
+            $table->integer('Wood_Consumption')->nullable()->unsigned();
 
             $table->string('Has_Mixers')->nullable();
 
-            $table->integer('No_Of_Mixers')->nullable();
-            $table->string('Capital', 150)->nullable();
+            $table->integer('No_Of_Mixers')->nullable()->unsigned();
+            $table->integer('Capital')->nullable()->unsigned();
             $table->string('Credit_Debit')->nullable();
 
             $table->string('Has_Sub_Contractor', 150)->nullable();

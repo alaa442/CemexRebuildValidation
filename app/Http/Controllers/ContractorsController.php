@@ -395,7 +395,7 @@ class ContractorsController extends Controller
 $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id')->first();
 }       
         try{
-            if($data['tele1'] == 0) { //if home phone equals 0 make it null
+            if($data['tele1'] == 0) { //if tele1 equals 0 make it null
                 $contractor->Tele1 = null;
             }
 
@@ -860,40 +860,33 @@ $validator = Validator::make(Input::all(), $rules,$messages);
     {
        $inputs = Input :: all();
         $contractor = Contractor::find($id);
-
         $rules = array(
         'name'      => array('regex:/^(?:[\p{L}\p{Mn}\p{Pd}\'                               \x{2019}]+(?:$|\s+)){2,}/u','required'),
         'goverment' => array('regex:/^[\pL\s]+$/u'),
         'city'      => array('regex:/^[\pL\s]+$/u'),
         'address'   => array('regex:/^[\pL\s]+$/u'),
-
         'birthday'  => array(
                     'regex:/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'),
-
         'mail' => array('email'),
-
         'tele2' => array('regex:/^[0-9]{10,11}$/',
                         'different:home_phone',
                     'unique:contractors,Tele2,'.$contractor->Contractor_Id.',Contractor_Id',
                     ),
-        
         'tele1' => 'required',
                     'regex:/^[0-9]{10,11}$/',
                     'different:Tele2',
                     'different:home_phone',
                     'unique:contractors,Tele1,'.$contractor->Contractor_Id.',Contractor_Id',
-
         'home_phone'=>array('regex:/^[0-9]{9,11}$/',
                 'unique:contractors,Home_Phone,'.$contractor->Contractor_Id.',Contractor_Id',
             ), 
-
         'job'       => array('regex:/^[\pL\s]+$/u'),
         'nickname'  => array('regex:/^[\pL\s]+$/u'),
         'religion'  => array('regex:/^[\pL\s]+$/u'),
         'fame'      => array('regex:/^[\pL\s]+$/u')
         );
         
-         $messages = array(
+        $messages = array(
             'birthday.regex'    => 'ادخل التاريخ كلاتي 2001-02-28',
             'name.regex'        =>'الرجاء ادخالا الاسم صحيح',
             'goverment.regex'   =>'أدخل الحروف صحيحة',
@@ -914,10 +907,9 @@ $validator = Validator::make(Input::all(), $rules,$messages);
             'tele1.different'=> 'هذه القيمه مكرره',
         );
 
-        
-
         $validation = Validator::make($inputs,$rules,$messages);
         if ($validation->fails()) {    
+            // dd($validation);
             return redirect('contractors/'.$contractor->Contractor_Id.'/edit')
                         ->withErrors($validation)
                         ->withInput();

@@ -16,6 +16,360 @@ use Redirect;
 
 class ReviewsController extends Controller
 {
+    public function ValidateReview($review){
+        $review->save();
+        $GLOBALS['a']= array(''); // Project_NO type and regex check
+        $GLOBALS['b']= array(''); // Portland_Cement type and regex check
+        $GLOBALS['c']= array(''); // Resisted_regex type and regex check
+        $GLOBALS['d']= array(''); // Eng_regex type and regex check
+        $GLOBALS['e']= array(''); // Saed_regex type and regex check
+        $GLOBALS['f']= array(''); // Fanar_regex type and regex check
+        $GLOBALS['j']= array(''); // Workers_regex type and regex check
+        $GLOBALS['k']= array(''); // Cement Consumption_regex type and regex check
+        $GLOBALS['l']= array(''); // Cement bricks_regex type and regex check
+        $GLOBALS['m']= array(''); // Steal regex type and regex check
+        $GLOBALS['n']= array(''); // Workers_regex type and regex check
+        $GLOBALS['o']= array(''); // Cement Consumption_regex type and regex check
+        $GLOBALS['p']= array(''); // Cement bricks_regex type and regex check
+        $GLOBALS['q']= array(''); // Capital regex type and regex check
+//yes or no values
+        $GLOBALS['r']= array(''); // Has Mixer regex type and regex check
+        $GLOBALS['s']= array(''); // Has wood regex type and regex check
+        $GLOBALS['t']= array(''); // Has sub cont regex type and regex check
+//string regex values
+        $GLOBALS['v']= array(''); // seller1 regex type and regex check
+        $GLOBALS['v2']= array(''); // seller2 regex type and regex check
+        $GLOBALS['v3']= array(''); // seller3 regex type and regex check
+        $GLOBALS['v4']= array(''); // seller4 regex type and regex check
+        $GLOBALS['s1']= array(''); // sub cont 1 regex type and regex check
+        $GLOBALS['s2']= array(''); // sub cont 2 regex type and regex check
+
+        $GLOBALS['status']= array(''); //  status  regex type and regex check
+        $GLOBALS['call_status']= array(''); // call_status regex type and regex check        
+
+        $Project_NO_regex = preg_match('/^[0-9]{0,11}$/' , $review->Project_NO);
+        if(isset($review->Project_NO) && $Project_NO_regex == 0 ){
+            // Project_NO type check
+                $Project_NOErr = 'عدد المشاريع غير صحيح للمقاول: ';
+                array_push($GLOBALS['a'],$review->getcontractor->Name); 
+                $Project_NOErr = $Project_NOErr.implode(" \n ",$GLOBALS['a']);
+                $Project_NOErr = nl2br($Project_NOErr);  
+                $cookie_name = 'Project_NOErr';
+                $cookie_value = $Project_NOErr;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+
+        $Portland_regex = preg_match('/^[0-9]{0,11}$/' , $review->Portland_Cement);
+        if(isset($review->Portland_Cement) && $Portland_regex == 0){
+            // Portland_Cement type check
+            // dd('name ',$review->getcontractor->Name);
+                $Portland_Err = 'متوسط استهلاك الاسمنت العادي غير صحيح للمقاول: ';
+                array_push($GLOBALS['b'], $review->getcontractor->Name);
+                $Portland_Err = $Portland_Err.implode(" \n ",$GLOBALS['b']);
+                $Portland_Err = nl2br($Portland_Err);  
+                $cookie_name = 'Portland_Err';
+                $cookie_value = $Portland_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Resisted_regex = preg_match('/^[0-9]{0,11}$/' , $review->Resisted_Cement);
+        if(isset($review->Resisted_Cement) && $Resisted_regex == 0){
+            // Resisted_Cement type check
+                $Resisted__Err = 'متوسط استهلاك الاسمنت المقاوم غير صحيح للمقاول: ';
+                array_push($GLOBALS['c'],$review->getcontractor->Name); 
+                $Resisted__Err = $Resisted__Err.implode(" \n ",$GLOBALS['c']);
+                $Resisted__Err = nl2br($Resisted__Err);  
+                $cookie_name = 'Resisted__Err';
+                $cookie_value = $Resisted__Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+
+        $Eng_regex = preg_match('/^[0-9]{0,11}$/' , $review->Eng_Cement);
+        if(isset($review->Eng_Cement) && $Eng_regex == 0 ){
+            // Eng_Cement type check
+                $Eng_regex_Err = 'متوسط استهلاك الاسمنت المهندس غير صحيح للمقاول: ';
+                array_push($GLOBALS['d'],$review->getcontractor->Name); 
+                $Eng_regex_Err = $Eng_regex_Err.implode(" \n ",$GLOBALS['d']);
+                $Eng_regex_Err = nl2br($Eng_regex_Err);  
+                $cookie_name = 'Eng_regex_Err';
+                $cookie_value = $Eng_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Saed_regex = preg_match('/^[0-9]{0,11}$/' , $review->Saed_Cement);
+        if(isset($review->Saed_Cement) && $Saed_regex == 0 ){
+            // Saed_Cement type check
+                $Saed_regex_Err = 'متوسط استهلاك اسمنت الصعيد غير صحيح للمقاول: ';
+                array_push($GLOBALS['e'],$review->getcontractor->Name); 
+                $Saed_regex_Err = $Saed_regex_Err.implode(" \n ",$GLOBALS['e']);
+                $Saed_regex_Err = nl2br($Saed_regex_Err);  
+                $cookie_name = 'Saed_regex_Err';
+                $cookie_value = $Saed_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Fanar_regex = preg_match('/^[0-9]{0,11}$/' , $review->Fanar_Cement);
+        if(isset($review->Fanar_Cement) && $Fanar_regex == 0 ){
+            // Fanar_Cement type check
+                $Fanar_regex_Err = 'متوسط استهلاك الاسمنت الفنار غير صحيح للمقاول: ';
+                array_push($GLOBALS['f'],$review->getcontractor->Name); 
+                $Fanar_regex_Err = $Fanar_regex_Err.implode(" \n ",$GLOBALS['f']);
+                $Fanar_regex_Err = nl2br($Fanar_regex_Err);  
+                $cookie_name = 'Fanar_regex_Err';
+                $cookie_value = $Fanar_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Workers_regex = preg_match('/^[0-9]{0,11}$/' , $review->Workers);
+        if(isset($review->Workers) && $Workers_regex == 0 ){
+            // Workers_regex type check
+                $Workers_regex_Err = 'عدد العمال غير صحيح للمقاول: ';
+                array_push($GLOBALS['j'],$review->getcontractor->Name); 
+                $Workers_regex_Err = $Workers_regex_Err.implode(" \n ",$GLOBALS['j']);
+                $Workers_regex_Err = nl2br($Workers_regex_Err);  
+                $cookie_name = 'Workers_regex_Err';
+                $cookie_value = $Workers_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Cement_regex = preg_match('/^[0-9]{0,11}$/' , $review->Cement_Consuption);
+        if(isset($review->Cement_Consuption) && $Cement_regex == 0 ){
+            // Cement_Consumption type check
+                $Cement_regex_Err = 'متوسط استهلاك كل الاسمنت غير صحيح للمقاول: ';
+                array_push($GLOBALS['k'],$review->getcontractor->Name); 
+                $Cement_regex_Err = $Cement_regex_Err.implode(" \n ",$GLOBALS['k']);
+                $Cement_regex_Err = nl2br($Cement_regex_Err);  
+                $cookie_name = 'Cement_regex_Err';
+                $cookie_value = $Cement_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Bricks_regex = preg_match('/^[0-9]{0,11}$/' , $review->Cement_Bricks);
+        if(isset($review->Cement_Bricks) && $Bricks_regex == 0 ){
+            // Cement_Bricks_regex type check
+                $Bricks_regex_Err = 'متوسط استهلاك الطوب الاسمنتي غير صحيح للمقاول: ';
+                array_push($GLOBALS['l'],$review->getcontractor->Name); 
+                $Bricks_regex_Err = $Bricks_regex_Err.implode(" \n ",$GLOBALS['l']);
+                $Bricks_regex_Err = nl2br($Bricks_regex_Err);  
+                $cookie_name = 'Bricks_regex_Err';
+                $cookie_value = $Bricks_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Steel_regex = preg_match('/^[0-9]{0,11}$/' , $review->Steel_Consumption);
+        if(isset($review->Steel_Consumption) && $Steel_regex == 0 ){
+            // Steel_Consumption type check
+                $Steel_regex_Err = 'متوسط استهلاك الحديد غير صحيح للمقاول: ';
+                array_push($GLOBALS['m'],$review->getcontractor->Name); 
+                $Steel_regex_Err = $Steel_regex_Err.implode(" \n ",$GLOBALS['m']);
+                $Steel_regex_Err = nl2br($Steel_regex_Err);  
+                $cookie_name = 'Steel_regex_Err';
+                $cookie_value = $Steel_regex_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $wood_meters_regex = preg_match('/^[0-9]{0,11}$/' , $review->Wood_Meters);
+        if(isset($review->Wood_Meters) && $wood_meters_regex == 0 ){
+            // Wood_Meters type check
+                $wood_meters_Err = 'عدد امتار الخشب غير صحيح للمقاول: ';
+                array_push($GLOBALS['n'],$review->getcontractor->Name); 
+                $wood_meters_Err = $wood_meters_Err.implode(" \n ",$GLOBALS['n']);
+                $wood_meters_Err = nl2br($wood_meters_Err);  
+                $cookie_name = 'wood_meters_Err';
+                $cookie_value = $wood_meters_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Wood_Consumption_regex = preg_match('/^[0-9]{0,11}$/' , $review->Wood_Consumption);
+        if(isset($review->Wood_Consumption) && $Wood_Consumption_regex == 0 ){
+            // Wood_Consumption type check
+                $Wood_Consumption_Err = 'متوسط استهلاك الخشب غير صحيح للمقاول: ';
+                array_push($GLOBALS['o'],$review->getcontractor->Name); 
+                $Wood_Consumption_Err = $Wood_Consumption_Err.implode(" \n ",$GLOBALS['o']);
+                $Wood_Consumption_Err = nl2br($Wood_Consumption_Err);  
+                $cookie_name = 'Wood_Consumption_Err';
+                $cookie_value = $Wood_Consumption_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $No_Of_Mixers_regex = preg_match('/^[0-9]{0,11}$/' , $review->No_Of_Mixers);
+        if(isset($review->No_Of_Mixers) && $No_Of_Mixers_regex == 0 ){
+            // No_Of_Mixers type check
+                $No_Of_Mixers_Err = 'عدد الخلاطات غير صحيح للمقاول: ';
+                array_push($GLOBALS['p'],$review->getcontractor->Name); 
+                $No_Of_Mixers_Err = $No_Of_Mixers_Err.implode(" \n ",$GLOBALS['p']);
+                $No_Of_Mixers_Err = nl2br($No_Of_Mixers_Err);  
+                $cookie_name = 'No_Of_Mixers_Err';
+                $cookie_value = $No_Of_Mixers_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+        $Capital_regex = preg_match('/^[0-9]{0,11}$/' , $review->Capital);
+        if(isset($review->Capital) && $Capital_regex == 0 ){
+            // Capital type check
+                $Capital_Err = 'رأس المال غير صحيح للمقاول: ';
+                array_push($GLOBALS['q'],$review->getcontractor->Name); 
+                $Capital_Err = $Capital_Err.implode(" \n ",$GLOBALS['q']);
+                $Capital_Err = nl2br($Capital_Err);  
+                $cookie_name = 'Capital_Err';
+                $cookie_value = $Capital_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+    ////yes or no validation values
+    if($review->Has_Mixers != null ){
+        if($review->Has_Mixers != "نعم" ){
+            if($review->Has_Mixers != "لا"){         
+                $MixerErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون نعم او لا للمقاول: ';
+                array_push($GLOBALS['r'],$review->getcontractor->Name); 
+                $MixerErr = $MixerErr.implode(" \n ",$GLOBALS['r']);
+                $MixerErr = nl2br($MixerErr);  
+                $cookie_name = 'MixerErr';
+                $cookie_value = $MixerErr;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();    
+            }
+        }   
+    }
+
+    if($review->Has_Wood != null ){
+        if($review->Has_Wood != "نعم" ){
+            if($review->Has_Wood != "لا"){         
+                $Has_WoodErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون نعم او لا للمقاول: ';
+                array_push($GLOBALS['s'],$review->getcontractor->Name); 
+                $Has_WoodErr = $Has_WoodErr.implode(" \n ",$GLOBALS['s']);
+                $Has_WoodErr = nl2br($Has_WoodErr);  
+                $cookie_name = 'Has_WoodErr';
+                $cookie_value = $Has_WoodErr;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();    
+            }
+        }   
+    }
+
+    if($review->Has_Sub_Contractor != null ){
+        if($review->Has_Sub_Contractor != "نعم" ){
+            if($review->Has_Sub_Contractor != "لا"){         
+                $Has_SubErr = 'قيمة الحقل هل يتعامل مع مقاولين من الباطن لابد ان تكون نعم او لا للمقاول: ';
+                array_push($GLOBALS['t'],$review->getcontractor->Name); 
+                $Has_SubErr = $Has_SubErr.implode(" \n ",$GLOBALS['t']);
+                $Has_SubErr = nl2br($Has_SubErr);  
+                $cookie_name = 'Has_SubErr';
+                $cookie_value = $Has_SubErr;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();    
+            }
+        }   
+    }
+    ///// string datatype check
+    $seller1_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller1);
+        if(isset($review->Seller1) && $seller1_regex == 0 ){
+            // Seller1 type check
+                $Seller1_Err = 'اسم التاجر الاول غير صحيح للمقاول: ';
+                array_push($GLOBALS['v'],$review->getcontractor->Name); 
+                $Seller1_Err = $Seller1_Err.implode(" \n ",$GLOBALS['v']);
+                $Seller1_Err = nl2br($Seller1_Err);  
+                $cookie_name = 'Seller1_Err';
+                $cookie_value = $Seller1_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+    $seller2_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller1);
+        if(isset($review->Seller2) && $seller2_regex == 0 ){
+            // Seller2 type check
+                $Seller2_Err = 'اسم التاجر الثاني غير صحيح للمقاول: ';
+                array_push($GLOBALS['v2'],$review->getcontractor->Name); 
+                $Seller2_Err = $Seller2_Err.implode(" \n ",$GLOBALS['v2']);
+                $Seller2_Err = nl2br($Seller2_Err);  
+                $cookie_name = 'Seller2_Err';
+                $cookie_value = $Seller2_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+
+    $seller3_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller3);
+        if(isset($review->Seller3) && $seller3_regex == 0 ){
+            // Seller3 type check
+                $Seller3_Err = 'اسم التاجر الثالث غير صحيح للمقاول: ';
+                array_push($GLOBALS['v3'],$review->getcontractor->Name); 
+                $Seller3_Err = $Seller3_Err.implode(" \n ",$GLOBALS['v3']);
+                $Seller3_Err = nl2br($Seller3_Err);  
+                $cookie_name = 'Seller3_Err';
+                $cookie_value = $Seller3_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+    $seller4_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller4);
+        if(isset($review->Seller4) && $seller4_regex == 0 ){
+            // Seller2 type check
+                $Seller4_Err = 'اسم التاجر الرابع غير صحيح للمقاول: ';
+                array_push($GLOBALS['v4'],$review->getcontractor->Name); 
+                $Seller4_Err = $Seller4_Err.implode(" \n ",$GLOBALS['v4']);
+                $Seller4_Err = nl2br($Seller4_Err);  
+                $cookie_name = 'Seller4_Err';
+                $cookie_value = $Seller4_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+    $sub1_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Sub_Contractor1);
+        if(isset($review->Sub_Contractor1) && $sub1_regex == 0 ){
+            // sub1_regex type check
+                $sub1_Err = 'اسم مقاول الباطن الاول غير صحيح للمقاول: ';
+                array_push($GLOBALS['s1'],$review->getcontractor->Name); 
+                $sub1_Err = $sub1_Err.implode(" \n ",$GLOBALS['s1']);
+                $sub1_Err = nl2br($sub1_Err);  
+                $cookie_name = 'sub1_Err';
+                $cookie_value = $sub1_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+    $sub2_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Sub_Contractor2);
+        if(isset($review->Sub_Contractor2) && $sub2_regex == 0 ){
+            // sub2_Err type check
+                $sub2_Err = 'اسم مقاول الباطن لثاني غير صحيح للمقاول: ';
+                array_push($GLOBALS['s2'],$review->getcontractor->Name); 
+                $sub2_Err = $sub2_Err.implode(" \n ",$GLOBALS['s2']);
+                $sub2_Err = nl2br($sub2_Err);  
+                $cookie_name = 'sub2_Err';
+                $cookie_value = $sub2_Err;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();                
+        }
+     //reviewed and to be reviewed values
+    if($review->Status != null ){
+        if($review->Status != "To Be Reviewed" ){
+            if($review->Status != "Reviewed"){         
+                $StatusErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون To Be Reviewed او Reviewed للمقاول: ';
+                array_push($GLOBALS['status'],$review->getcontractor->Name); 
+                $StatusErr = $StatusErr.implode(" \n ",$GLOBALS['status']);
+                $StatusErr = nl2br($StatusErr);  
+                $cookie_name = 'StatusErr';
+                $cookie_value = $StatusErr;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();    
+            }
+        }   
+    }
+    if($review->Call_Status != null ){
+        if($review->Call_Status != "To Be Reviewed" ){
+            if($review->Call_Status != "Reviewed"){         
+                $Call_StatusErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون To Be Reviewed او Reviewed للمقاول: ';
+                array_push($GLOBALS['call_status'],$review->getcontractor->Name); 
+                $Call_StatusErr = $Call_StatusErr.implode(" \n ",$GLOBALS['call_status']);
+                $Call_StatusErr = nl2br($Call_StatusErr);  
+                $cookie_name = 'Call_StatusErr';
+                $cookie_value = $Call_StatusErr;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
+                $review->delete();    
+            }
+        }   
+    }
+
+
+    } // end validate review function
+
     public function index()
     {       
         $reviews = Review::all();
@@ -520,31 +874,7 @@ $index5 = 0;
             unset ($_COOKIE['FileError']);
             $filename = Input::file('file')->getClientOriginalName();
             $Dpath = base_path();
-            $upload_success =Input::file('file')->move( $Dpath, $filename); 
-
-            $GLOBALS['z']= array(''); //tele1 null values
-            $GLOBALS['y']= array(''); //tele1 data type
-            $GLOBALS['s']= array(''); //tele1 Regex 
-
-            $GLOBALS['x']= array(''); //wrong tele2 datatype or 0 or character
-
-            $GLOBALS['a']= array(''); //wrong home_phone datatype or 0 or character
-
-            $GLOBALS['b']= array(''); //wrong data type name
-            $GLOBALS['c']= array(''); //wrong data type government
-            $GLOBALS['d']= array(''); //wrong data type city
-            $GLOBALS['e']= array(''); //wrong data type address
-            $GLOBALS['f']= array(''); //wrong data type job
-            $GLOBALS['j']= array(''); //wrong data type fame
-            $GLOBALS['k']= array(''); //wrong data type nick name
-            $GLOBALS['l']= array(''); //wrong data type religon
-            $GLOBALS['m']= array(''); //wrong data type religon
-            $GLOBALS['n']= array(''); //wrong data type computer
-            $GLOBALS['o']= array(''); //wrong data type smart_phone_type
-            $GLOBALS['p']= array(''); //wrong data type Has facebook type
-            $GLOBALS['q']= array(''); //wrong data type facebook account type
-            $GLOBALS['r']= array(''); //wrong data type birthdate type
-                  
+            $upload_success =Input::file('file')->move( $Dpath, $filename);       
         Excel::load($upload_success, function($reader)
             {       
                 $results = $reader->get()->toArray(); 
@@ -606,11 +936,14 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                 $review->Status=$data['status'];
                 $review->Call_Status= $data['call_status'];
                 $review->Area=$data['area'];
-                $review->Cont_Type= $data['cont_type'];  
+                $review->Cont_Type= $data['cont_type']; 
+                // $review->save();
+                app('App\Http\Controllers\ReviewsController')->ValidateReview($review);
+                
 
             }
             catch (\Exception $e) {
-                // dd($e);
+                dd($e);
                 $exist_string= "Duplicate entry '".ltrim($data['mobile1'], '0')."' for key 'contractors_tele1_unique'";
                 $exist_string2= "Duplicate entry '".$data['mobile1']."' for key 'contractors_tele1_unique'";
                 $is_exist='null';
@@ -671,7 +1004,8 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                         $updated_review->Call_Status= $data['call_status'];
                         $updated_review->Area=$data['area'];
                         $updated_review->Cont_Type= $data['cont_type']; 
-                        $updated_review->save();
+                        // $updated_review->save();
+                app('App\Http\Controllers\ReviewsController')->ValidateReview($updated_review);
                     } // end update review 
                 else {  // contractor has no review
                     // dd('else');
