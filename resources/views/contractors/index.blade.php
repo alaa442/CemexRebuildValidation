@@ -5,6 +5,14 @@
 {!! \Lava::render('ColumnChart', 'MyStocks', 'perf_div') !!}
 
 <?php
+
+//ContractorErr 
+	if(!empty($_COOKIE['ContractorErr'])) {	    
+		echo "<div><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['ContractorErr'];
+		echo "</div> </div>";
+	} 
+
 //Tele1 regex
 	if(!empty($_COOKIE['Tele1_regex'])) {	    
 		echo "<div id='Tele1_regex'><div class='alert alert-block alert-danger fade in center'>";
