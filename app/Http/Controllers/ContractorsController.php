@@ -320,13 +320,15 @@ class ContractorsController extends Controller
             return view('contractors.create',compact('promoters','govs'));        
     }
 
-    public function ValidateContractor($results){
-        $GLOBALS['contractor']= array(''); //contractors error array values
+    public function ValidateContractor($results){ 
+        $GLOBALS['contractor']= array();   
+        $GLOBALS['Review_Id']= null;     
         $ContractorErr = 'البيانات غير صحيحة للمقاول: ';
     foreach ($results as $data){      
+        // dd( urlencode($data['email']), $data);
         $contractor =new Contractor();
         $contractor->Name = $data['name'];
-        $contractor->Goverment = $data['goverment'];
+        $contractor->Goverment = $data['gov'];
         $contractor->City = $data['city'];
         $contractor->Address = $data['address'];
         $contractor->Education = $data['education'];
@@ -336,8 +338,8 @@ class ContractorsController extends Controller
         $contractor->Has_Facebook = $data['has_facebook'];
         $contractor->Email = $data['email'];
         $contractor->Birthday =$data['birthday'];
-        $contractor->Tele1 = $data['tele1'];
-        $contractor->Tele2 =$data['tele2'];
+        $contractor->Tele1 = $data['mobile1'];
+        $contractor->Tele2 =$data['mobile2'];
         $contractor->Job = $data['job'];
         $contractor->Code=uniqid('Cont');
         $contractor->Phone_Type = $data['phone_type'];
@@ -349,16 +351,16 @@ class ContractorsController extends Controller
             $Pormoter_Id= Promoter::where('Code',$data['code'])->pluck('Pormoter_Id')->first();
             $contractor->Pormoter_Id =$Pormoter_Id;
         }
-        if(isset($data['tele1'])){
-$Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id')->first();
+        if(isset($data['mobile1'])){
+$Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_Id')->first();
         }       
 
         $name_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['name']);
         //name  check
         if ($name_regex == 1 || !isset($data['name'])) { // true name 
-            $gov_regex = preg_match('/^[\pL\s]+$/u' , $data['goverment']);
+            $gov_regex = preg_match('/^[\pL\s]+$/u' , $data['gov']);
             //governemnt check
-            if ($gov_regex == 1 || !isset($data['goverment'])) { // true goverment 
+            if ($gov_regex == 1 || !isset($data['gov'])) { // true goverment 
                 //city check
                 $city_regex = preg_match('/^[\pL\s]+$/u' , $data['city']);
                 if ($city_regex == 1 || !isset($data['city'])) { // true city 
@@ -376,13 +378,13 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
                                     if ($Religion_regex == 1 || !isset($data['religion'])) { //religion  
                                         $Fame_regex = preg_match('/^[\pL\s]+$/u' , $data['fame']);
                                         if ($Fame_regex == 1 || !isset($data['fame'])) { //Fame  
-                                            $Mail_regex = preg_match('/^[A-z0-9_\-]+[@][A-z0-9_\-]+([.][A-z0-9_\-]+)+[A-z.]{2,4}$/' , $data['email']);
+                                            $Mail_regex = preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' , $data['email']);
                                             if ($Mail_regex == 1 || !isset($data['email'])) { //mail  
                                                 //yes or no value validation
                                                 if($data['computer'] != null ){
                                                     if($data['computer'] != "نعم" ){
                                                         if($data['computer'] != "لا"){         
-                                                            array_push($GLOBALS['contractor'],$saved_contractor->Name); 
+                                                            array_push($GLOBALS['contractor'],$data['name']); 
 
                                                         }
                                                     }   
@@ -390,14 +392,14 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
                                                 if($data['has_facebook'] != null ){
                                                     if($data['has_facebook'] != "نعم" ){
                                                         if($data['has_facebook'] != "لا"){         
-                                                            array_push($GLOBALS['contractor'],$saved_contractor->Name); 
+                                                            array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
                                                 } // end has_facebook check
                                                 if($data['phone_type'] != null ){
                                                     if($data['phone_type'] != "نعم" ){
                                                         if($data['phone_type'] != "لا"){         
-                                                            array_push($GLOBALS['contractor'],$saved_contractor->Name); 
+                                                            array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
                                                 } // end phone_type check
@@ -409,32 +411,32 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
                                                     $Class_regex = preg_match('/^[0-9]$/' , $data['class']);
                                                     if ($Class_regex == 1 || !isset($data['class'])) { 
                                                         // Tele2 check
-                                                        $Tele2_regex = preg_match('/^[0-9]{10,11}$/' ,$data['tele2']);
-                                                        if ($Tele2_regex == 1 || $data['tele2'] == null) {
+                                                        $Tele2_regex = preg_match('/^[0-9]{10,11}$/' ,$data['mobile2']);
+                                                        if ($Tele2_regex == 1 || $data['mobile2'] == null) {
                                                             // Home Phone check
                                                             $Home_phone_regex = preg_match('/^[0-9]{10,11}$/' , $data['home_phone']);
                                                             if ($Home_phone_regex == 1 || $data['home_phone'] == null) {
                                                                               
                                                                 // Tele1  check
-                                                                $Tele1_regex = preg_match('/^[0-9]{10,11}$/' , $data['tele1']);
+                                                                $Tele1_regex = preg_match('/^[0-9]{10,11}$/' , $data['mobile1']);
                                                                 if ($Tele1_regex == 1 ) {
                                                                     try{
                                                                         $contractor->save();
                                                                     }
                                                                     catch (\Exception $e) {
             //if contractor exists .. update it
-                $exist_string= "Duplicate entry '".ltrim($data['tele1'], '0')."' for key 'contractors_tele1_unique'";
+                $exist_string= "Duplicate entry '".ltrim($data['mobile1'], '0')."' for key 'contractors_tele1_unique'";
 
-                $exist_string2= "Duplicate entry '".$data['tele1']."' for key 'contractors_tele1_unique'";
+                $exist_string2= "Duplicate entry '".$data['mobile1']."' for key 'contractors_tele1_unique'";
                 $is_exist='null';
                 if ($exist_string2 == $e->errorInfo[2] || $exist_string == $e->errorInfo[2]) {  
                         $is_exist='true';
                 }
                 if ($is_exist == 'true') { //update existing
-                $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id')->first();
+                $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_Id')->first();
                     $updated_cont = Contractor::find($Contractor_Id);
                     $updated_cont->Name =  $data['name'];
-                    $updated_cont->Goverment = $data['goverment'];
+                    $updated_cont->Goverment = $data['gov'];
                     $updated_cont->City = $data['city'];
                     $updated_cont->Address = $data['address'];
                     $updated_cont->Education = $data['education'];
@@ -443,7 +445,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
                     $updated_cont->Computer = $data['computer'];
                     $updated_cont->Email = $data['email'];
                     $updated_cont->Birthday =$data['birthday'];
-                    $updated_cont->Tele2 =$data['tele2'];
+                    $updated_cont->Tele2 =$data['mobile2'];
                     $updated_cont->Job = $data['job'];
                     $updated_cont->Code=uniqid('Cont');
                     $updated_cont->Phone_Type = $data['phone_type'];
@@ -455,6 +457,9 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
                         $updated_cont->Pormoter_Id =$Pormoter_Id;
                     }
                     $updated_cont->save();
+                    if ($updated_cont->getreview) {
+                       $GLOBALS['Review_Id']= $updated_cont->getreview->Review_Id;
+                    }
             } //end if contractor exists
 
                 //if tele1 dosent exist
@@ -536,12 +541,18 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
 
          
     }
-        $GLOBALS['contractor'] = array_unique($GLOBALS['contractor']);
-        $ContractorErr = $ContractorErr.implode(" \n ",$GLOBALS['contractor']);
-        $ContractorErr = nl2br($ContractorErr);  
-        $cookie_name = 'ContractorErr';
-        $cookie_value = $ContractorErr;
-        setcookie($cookie_name, $cookie_value, time() + (60), "/");
+        if ( !empty ($GLOBALS['contractor'] )) {
+            dd('false');
+            $GLOBALS['contractor'] = array_unique($GLOBALS['contractor']);
+            $ContractorErr = $ContractorErr.implode(" \n ",$GLOBALS['contractor']);
+            $ContractorErr = nl2br($ContractorErr);  
+            $cookie_name = 'ContractorErr';
+            $cookie_value = $ContractorErr;
+            setcookie($cookie_name, $cookie_value, time() + (60), "/");
+        }
+        else {
+            $ContractorErr = null;
+        }
 }
 
     public function importcontractor()
@@ -565,13 +576,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id'
         Excel::load($upload_success, function($reader)
             {                       
                 $results = $reader->get()->toArray();
-
                 app('App\Http\Controllers\ContractorsController')->ValidateContractor($results[0]);
-
-                // foreach ($results[0] as $data)
-                // {
-                //     app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
-                // }    //end foreach
 
             }); //end excel
         

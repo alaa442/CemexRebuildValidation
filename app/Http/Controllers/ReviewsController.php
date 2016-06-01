@@ -16,360 +16,6 @@ use Redirect;
 
 class ReviewsController extends Controller
 {
-    public function ValidateReview($review){
-        $review->save();
-        $GLOBALS['a']= array(''); // Project_NO type and regex check
-        $GLOBALS['b']= array(''); // Portland_Cement type and regex check
-        $GLOBALS['c']= array(''); // Resisted_regex type and regex check
-        $GLOBALS['d']= array(''); // Eng_regex type and regex check
-        $GLOBALS['e']= array(''); // Saed_regex type and regex check
-        $GLOBALS['f']= array(''); // Fanar_regex type and regex check
-        $GLOBALS['j']= array(''); // Workers_regex type and regex check
-        $GLOBALS['k']= array(''); // Cement Consumption_regex type and regex check
-        $GLOBALS['l']= array(''); // Cement bricks_regex type and regex check
-        $GLOBALS['m']= array(''); // Steal regex type and regex check
-        $GLOBALS['n']= array(''); // Workers_regex type and regex check
-        $GLOBALS['o']= array(''); // Cement Consumption_regex type and regex check
-        $GLOBALS['p']= array(''); // Cement bricks_regex type and regex check
-        $GLOBALS['q']= array(''); // Capital regex type and regex check
-//yes or no values
-        $GLOBALS['r']= array(''); // Has Mixer regex type and regex check
-        $GLOBALS['s']= array(''); // Has wood regex type and regex check
-        $GLOBALS['t']= array(''); // Has sub cont regex type and regex check
-//string regex values
-        $GLOBALS['v']= array(''); // seller1 regex type and regex check
-        $GLOBALS['v2']= array(''); // seller2 regex type and regex check
-        $GLOBALS['v3']= array(''); // seller3 regex type and regex check
-        $GLOBALS['v4']= array(''); // seller4 regex type and regex check
-        $GLOBALS['s1']= array(''); // sub cont 1 regex type and regex check
-        $GLOBALS['s2']= array(''); // sub cont 2 regex type and regex check
-
-        $GLOBALS['status']= array(''); //  status  regex type and regex check
-        $GLOBALS['call_status']= array(''); // call_status regex type and regex check        
-
-        $Project_NO_regex = preg_match('/^[0-9]{0,11}$/' , $review->Project_NO);
-        if(isset($review->Project_NO) && $Project_NO_regex == 0 ){
-            // Project_NO type check
-                $Project_NOErr = 'عدد المشاريع غير صحيح للمقاول: ';
-                array_push($GLOBALS['a'],$review->getcontractor->Name); 
-                $Project_NOErr = $Project_NOErr.implode(" \n ",$GLOBALS['a']);
-                $Project_NOErr = nl2br($Project_NOErr);  
-                $cookie_name = 'Project_NOErr';
-                $cookie_value = $Project_NOErr;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-
-        $Portland_regex = preg_match('/^[0-9]{0,11}$/' , $review->Portland_Cement);
-        if(isset($review->Portland_Cement) && $Portland_regex == 0){
-            // Portland_Cement type check
-            // dd('name ',$review->getcontractor->Name);
-                $Portland_Err = 'متوسط استهلاك الاسمنت العادي غير صحيح للمقاول: ';
-                array_push($GLOBALS['b'], $review->getcontractor->Name);
-                $Portland_Err = $Portland_Err.implode(" \n ",$GLOBALS['b']);
-                $Portland_Err = nl2br($Portland_Err);  
-                $cookie_name = 'Portland_Err';
-                $cookie_value = $Portland_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Resisted_regex = preg_match('/^[0-9]{0,11}$/' , $review->Resisted_Cement);
-        if(isset($review->Resisted_Cement) && $Resisted_regex == 0){
-            // Resisted_Cement type check
-                $Resisted__Err = 'متوسط استهلاك الاسمنت المقاوم غير صحيح للمقاول: ';
-                array_push($GLOBALS['c'],$review->getcontractor->Name); 
-                $Resisted__Err = $Resisted__Err.implode(" \n ",$GLOBALS['c']);
-                $Resisted__Err = nl2br($Resisted__Err);  
-                $cookie_name = 'Resisted__Err';
-                $cookie_value = $Resisted__Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-
-        $Eng_regex = preg_match('/^[0-9]{0,11}$/' , $review->Eng_Cement);
-        if(isset($review->Eng_Cement) && $Eng_regex == 0 ){
-            // Eng_Cement type check
-                $Eng_regex_Err = 'متوسط استهلاك الاسمنت المهندس غير صحيح للمقاول: ';
-                array_push($GLOBALS['d'],$review->getcontractor->Name); 
-                $Eng_regex_Err = $Eng_regex_Err.implode(" \n ",$GLOBALS['d']);
-                $Eng_regex_Err = nl2br($Eng_regex_Err);  
-                $cookie_name = 'Eng_regex_Err';
-                $cookie_value = $Eng_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Saed_regex = preg_match('/^[0-9]{0,11}$/' , $review->Saed_Cement);
-        if(isset($review->Saed_Cement) && $Saed_regex == 0 ){
-            // Saed_Cement type check
-                $Saed_regex_Err = 'متوسط استهلاك اسمنت الصعيد غير صحيح للمقاول: ';
-                array_push($GLOBALS['e'],$review->getcontractor->Name); 
-                $Saed_regex_Err = $Saed_regex_Err.implode(" \n ",$GLOBALS['e']);
-                $Saed_regex_Err = nl2br($Saed_regex_Err);  
-                $cookie_name = 'Saed_regex_Err';
-                $cookie_value = $Saed_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Fanar_regex = preg_match('/^[0-9]{0,11}$/' , $review->Fanar_Cement);
-        if(isset($review->Fanar_Cement) && $Fanar_regex == 0 ){
-            // Fanar_Cement type check
-                $Fanar_regex_Err = 'متوسط استهلاك الاسمنت الفنار غير صحيح للمقاول: ';
-                array_push($GLOBALS['f'],$review->getcontractor->Name); 
-                $Fanar_regex_Err = $Fanar_regex_Err.implode(" \n ",$GLOBALS['f']);
-                $Fanar_regex_Err = nl2br($Fanar_regex_Err);  
-                $cookie_name = 'Fanar_regex_Err';
-                $cookie_value = $Fanar_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Workers_regex = preg_match('/^[0-9]{0,11}$/' , $review->Workers);
-        if(isset($review->Workers) && $Workers_regex == 0 ){
-            // Workers_regex type check
-                $Workers_regex_Err = 'عدد العمال غير صحيح للمقاول: ';
-                array_push($GLOBALS['j'],$review->getcontractor->Name); 
-                $Workers_regex_Err = $Workers_regex_Err.implode(" \n ",$GLOBALS['j']);
-                $Workers_regex_Err = nl2br($Workers_regex_Err);  
-                $cookie_name = 'Workers_regex_Err';
-                $cookie_value = $Workers_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Cement_regex = preg_match('/^[0-9]{0,11}$/' , $review->Cement_Consuption);
-        if(isset($review->Cement_Consuption) && $Cement_regex == 0 ){
-            // Cement_Consumption type check
-                $Cement_regex_Err = 'متوسط استهلاك كل الاسمنت غير صحيح للمقاول: ';
-                array_push($GLOBALS['k'],$review->getcontractor->Name); 
-                $Cement_regex_Err = $Cement_regex_Err.implode(" \n ",$GLOBALS['k']);
-                $Cement_regex_Err = nl2br($Cement_regex_Err);  
-                $cookie_name = 'Cement_regex_Err';
-                $cookie_value = $Cement_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Bricks_regex = preg_match('/^[0-9]{0,11}$/' , $review->Cement_Bricks);
-        if(isset($review->Cement_Bricks) && $Bricks_regex == 0 ){
-            // Cement_Bricks_regex type check
-                $Bricks_regex_Err = 'متوسط استهلاك الطوب الاسمنتي غير صحيح للمقاول: ';
-                array_push($GLOBALS['l'],$review->getcontractor->Name); 
-                $Bricks_regex_Err = $Bricks_regex_Err.implode(" \n ",$GLOBALS['l']);
-                $Bricks_regex_Err = nl2br($Bricks_regex_Err);  
-                $cookie_name = 'Bricks_regex_Err';
-                $cookie_value = $Bricks_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Steel_regex = preg_match('/^[0-9]{0,11}$/' , $review->Steel_Consumption);
-        if(isset($review->Steel_Consumption) && $Steel_regex == 0 ){
-            // Steel_Consumption type check
-                $Steel_regex_Err = 'متوسط استهلاك الحديد غير صحيح للمقاول: ';
-                array_push($GLOBALS['m'],$review->getcontractor->Name); 
-                $Steel_regex_Err = $Steel_regex_Err.implode(" \n ",$GLOBALS['m']);
-                $Steel_regex_Err = nl2br($Steel_regex_Err);  
-                $cookie_name = 'Steel_regex_Err';
-                $cookie_value = $Steel_regex_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $wood_meters_regex = preg_match('/^[0-9]{0,11}$/' , $review->Wood_Meters);
-        if(isset($review->Wood_Meters) && $wood_meters_regex == 0 ){
-            // Wood_Meters type check
-                $wood_meters_Err = 'عدد امتار الخشب غير صحيح للمقاول: ';
-                array_push($GLOBALS['n'],$review->getcontractor->Name); 
-                $wood_meters_Err = $wood_meters_Err.implode(" \n ",$GLOBALS['n']);
-                $wood_meters_Err = nl2br($wood_meters_Err);  
-                $cookie_name = 'wood_meters_Err';
-                $cookie_value = $wood_meters_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Wood_Consumption_regex = preg_match('/^[0-9]{0,11}$/' , $review->Wood_Consumption);
-        if(isset($review->Wood_Consumption) && $Wood_Consumption_regex == 0 ){
-            // Wood_Consumption type check
-                $Wood_Consumption_Err = 'متوسط استهلاك الخشب غير صحيح للمقاول: ';
-                array_push($GLOBALS['o'],$review->getcontractor->Name); 
-                $Wood_Consumption_Err = $Wood_Consumption_Err.implode(" \n ",$GLOBALS['o']);
-                $Wood_Consumption_Err = nl2br($Wood_Consumption_Err);  
-                $cookie_name = 'Wood_Consumption_Err';
-                $cookie_value = $Wood_Consumption_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $No_Of_Mixers_regex = preg_match('/^[0-9]{0,11}$/' , $review->No_Of_Mixers);
-        if(isset($review->No_Of_Mixers) && $No_Of_Mixers_regex == 0 ){
-            // No_Of_Mixers type check
-                $No_Of_Mixers_Err = 'عدد الخلاطات غير صحيح للمقاول: ';
-                array_push($GLOBALS['p'],$review->getcontractor->Name); 
-                $No_Of_Mixers_Err = $No_Of_Mixers_Err.implode(" \n ",$GLOBALS['p']);
-                $No_Of_Mixers_Err = nl2br($No_Of_Mixers_Err);  
-                $cookie_name = 'No_Of_Mixers_Err';
-                $cookie_value = $No_Of_Mixers_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-        $Capital_regex = preg_match('/^[0-9]{0,11}$/' , $review->Capital);
-        if(isset($review->Capital) && $Capital_regex == 0 ){
-            // Capital type check
-                $Capital_Err = 'رأس المال غير صحيح للمقاول: ';
-                array_push($GLOBALS['q'],$review->getcontractor->Name); 
-                $Capital_Err = $Capital_Err.implode(" \n ",$GLOBALS['q']);
-                $Capital_Err = nl2br($Capital_Err);  
-                $cookie_name = 'Capital_Err';
-                $cookie_value = $Capital_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-    ////yes or no validation values
-    if($review->Has_Mixers != null ){
-        if($review->Has_Mixers != "نعم" ){
-            if($review->Has_Mixers != "لا"){         
-                $MixerErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون نعم او لا للمقاول: ';
-                array_push($GLOBALS['r'],$review->getcontractor->Name); 
-                $MixerErr = $MixerErr.implode(" \n ",$GLOBALS['r']);
-                $MixerErr = nl2br($MixerErr);  
-                $cookie_name = 'MixerErr';
-                $cookie_value = $MixerErr;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();    
-            }
-        }   
-    }
-
-    if($review->Has_Wood != null ){
-        if($review->Has_Wood != "نعم" ){
-            if($review->Has_Wood != "لا"){         
-                $Has_WoodErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون نعم او لا للمقاول: ';
-                array_push($GLOBALS['s'],$review->getcontractor->Name); 
-                $Has_WoodErr = $Has_WoodErr.implode(" \n ",$GLOBALS['s']);
-                $Has_WoodErr = nl2br($Has_WoodErr);  
-                $cookie_name = 'Has_WoodErr';
-                $cookie_value = $Has_WoodErr;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();    
-            }
-        }   
-    }
-
-    if($review->Has_Sub_Contractor != null ){
-        if($review->Has_Sub_Contractor != "نعم" ){
-            if($review->Has_Sub_Contractor != "لا"){         
-                $Has_SubErr = 'قيمة الحقل هل يتعامل مع مقاولين من الباطن لابد ان تكون نعم او لا للمقاول: ';
-                array_push($GLOBALS['t'],$review->getcontractor->Name); 
-                $Has_SubErr = $Has_SubErr.implode(" \n ",$GLOBALS['t']);
-                $Has_SubErr = nl2br($Has_SubErr);  
-                $cookie_name = 'Has_SubErr';
-                $cookie_value = $Has_SubErr;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();    
-            }
-        }   
-    }
-    ///// string datatype check
-    $seller1_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller1);
-        if(isset($review->Seller1) && $seller1_regex == 0 ){
-            // Seller1 type check
-                $Seller1_Err = 'اسم التاجر الاول غير صحيح للمقاول: ';
-                array_push($GLOBALS['v'],$review->getcontractor->Name); 
-                $Seller1_Err = $Seller1_Err.implode(" \n ",$GLOBALS['v']);
-                $Seller1_Err = nl2br($Seller1_Err);  
-                $cookie_name = 'Seller1_Err';
-                $cookie_value = $Seller1_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-    $seller2_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller1);
-        if(isset($review->Seller2) && $seller2_regex == 0 ){
-            // Seller2 type check
-                $Seller2_Err = 'اسم التاجر الثاني غير صحيح للمقاول: ';
-                array_push($GLOBALS['v2'],$review->getcontractor->Name); 
-                $Seller2_Err = $Seller2_Err.implode(" \n ",$GLOBALS['v2']);
-                $Seller2_Err = nl2br($Seller2_Err);  
-                $cookie_name = 'Seller2_Err';
-                $cookie_value = $Seller2_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-
-    $seller3_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller3);
-        if(isset($review->Seller3) && $seller3_regex == 0 ){
-            // Seller3 type check
-                $Seller3_Err = 'اسم التاجر الثالث غير صحيح للمقاول: ';
-                array_push($GLOBALS['v3'],$review->getcontractor->Name); 
-                $Seller3_Err = $Seller3_Err.implode(" \n ",$GLOBALS['v3']);
-                $Seller3_Err = nl2br($Seller3_Err);  
-                $cookie_name = 'Seller3_Err';
-                $cookie_value = $Seller3_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-    $seller4_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Seller4);
-        if(isset($review->Seller4) && $seller4_regex == 0 ){
-            // Seller2 type check
-                $Seller4_Err = 'اسم التاجر الرابع غير صحيح للمقاول: ';
-                array_push($GLOBALS['v4'],$review->getcontractor->Name); 
-                $Seller4_Err = $Seller4_Err.implode(" \n ",$GLOBALS['v4']);
-                $Seller4_Err = nl2br($Seller4_Err);  
-                $cookie_name = 'Seller4_Err';
-                $cookie_value = $Seller4_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-    $sub1_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Sub_Contractor1);
-        if(isset($review->Sub_Contractor1) && $sub1_regex == 0 ){
-            // sub1_regex type check
-                $sub1_Err = 'اسم مقاول الباطن الاول غير صحيح للمقاول: ';
-                array_push($GLOBALS['s1'],$review->getcontractor->Name); 
-                $sub1_Err = $sub1_Err.implode(" \n ",$GLOBALS['s1']);
-                $sub1_Err = nl2br($sub1_Err);  
-                $cookie_name = 'sub1_Err';
-                $cookie_value = $sub1_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-    $sub2_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $review->Sub_Contractor2);
-        if(isset($review->Sub_Contractor2) && $sub2_regex == 0 ){
-            // sub2_Err type check
-                $sub2_Err = 'اسم مقاول الباطن لثاني غير صحيح للمقاول: ';
-                array_push($GLOBALS['s2'],$review->getcontractor->Name); 
-                $sub2_Err = $sub2_Err.implode(" \n ",$GLOBALS['s2']);
-                $sub2_Err = nl2br($sub2_Err);  
-                $cookie_name = 'sub2_Err';
-                $cookie_value = $sub2_Err;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();                
-        }
-     //reviewed and to be reviewed values
-    if($review->Status != null ){
-        if($review->Status != "To Be Reviewed" ){
-            if($review->Status != "Reviewed"){         
-                $StatusErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون To Be Reviewed او Reviewed للمقاول: ';
-                array_push($GLOBALS['status'],$review->getcontractor->Name); 
-                $StatusErr = $StatusErr.implode(" \n ",$GLOBALS['status']);
-                $StatusErr = nl2br($StatusErr);  
-                $cookie_name = 'StatusErr';
-                $cookie_value = $StatusErr;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();    
-            }
-        }   
-    }
-    if($review->Call_Status != null ){
-        if($review->Call_Status != "To Be Reviewed" ){
-            if($review->Call_Status != "Reviewed"){         
-                $Call_StatusErr = 'قيمة الحقل هل يمتلك خلاطة لابد ان تكون To Be Reviewed او Reviewed للمقاول: ';
-                array_push($GLOBALS['call_status'],$review->getcontractor->Name); 
-                $Call_StatusErr = $Call_StatusErr.implode(" \n ",$GLOBALS['call_status']);
-                $Call_StatusErr = nl2br($Call_StatusErr);  
-                $cookie_name = 'Call_StatusErr';
-                $cookie_value = $Call_StatusErr;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day  
-                $review->delete();    
-            }
-        }   
-    }
-
-
-    } // end validate review function
-
     public function index()
     {       
         $reviews = Review::all();
@@ -860,6 +506,305 @@ $index5 = 0;
         return view('reviews.QuantityCharts');
     }
 
+    public function ValidateReview($results){  
+        $GLOBALS['review']= array();  
+        $ReviewErr = 'مراجعة البيانات غير صحيحة للمقاول: ';    
+        foreach ($results as $data) {
+            $review = new Review; 
+            if(isset($data['mobile1'])){
+                $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])
+                                            ->pluck('Contractor_Id')->first();
+            } 
+            $review->Contractor_Id =$Contractor_Id;
+            $review->Long = $data['long'];
+            $review->Lat = $data['lat'];
+            $review->Project_NO = $data['project_no'];
+            $review->Portland_Cement = $data['portland_cement'];
+            $review->Resisted_Cement = $data['resisted_cement'];
+            $review->Eng_Cement = $data['eng_cement'];
+            $review->Saed_Cement = $data['saed_cement'];
+            $review->Fanar_Cement = $data['fanar_cement'];
+            $review->Workers =$data['workers'];
+            $review->Cement_Consuption = $data['cement_consuption'];
+            $review->Cement_Bricks =$data['cement_bricks'];
+            $review->Steel_Consumption = $data['steel_consumption'];
+            $review->Has_Wood = $data['has_wood'];
+            $review->Wood_Meters =$data['wood_meters'];
+            $review->Has_Mixers=$data['has_mixers'];
+            $review->No_Of_Mixers= $data['no_of_mixers'];
+            $review->Capital = $data['capital'];
+            $review->Credit_Debit = $data['credit_debit'];
+            $review->Sub_Contractor1 =$data['sub_contractor1'];
+            $review->Sub_Contractor2 =$data['sub_contractor2'];
+            $review->Has_Sub_Contractor =$data['has_sub_contractor'];
+            $review->Seller1 =$data['seller1'];
+            $review->Seller2 =$data['seller2'];
+            $review->Seller3 =$data['seller3'];
+            $review->Seller4 =$data['seller4'];
+            $review->Status=$data['status'];
+            $review->Call_Status= $data['call_status'];
+            $review->Area=$data['area'];
+            $review->Cont_Type= $data['cont_type']; 
+
+            //numbers values check 
+            $Project_NO_regex = preg_match('/^[0-9]{0,11}$/' , $data['project_no']);
+            if ($Project_NO_regex == 1 || !isset($data['project_no'])) { // true project_no 
+                $Portland_regex = preg_match('/^[0-9]{0,11}$/' , $data['portland_cement']);
+                if ($Portland_regex == 1 || !isset($data['portland_cement'])) { // true portland_cement 
+                    $resisted_regex = preg_match('/^[0-9]{0,11}$/' , $data['resisted_cement']);
+                    if ($resisted_regex == 1 || !isset($data['resisted_cement'])) { // true resisted_cement
+                        $eng_regex = preg_match('/^[0-9]{0,11}$/' , $data['eng_cement']);
+                        if ($eng_regex == 1 || !isset($data['eng_cement'])) { // true eng_cement 
+                            $saed_regex = preg_match('/^[0-9]{0,11}$/' , $data['saed_cement']);
+                            if ($saed_regex == 1 || !isset($data['saed_cement'])) { // true saed_cement 
+                                $fanar_regex = preg_match('/^[0-9]{0,11}$/' , $data['fanar_cement']);
+                                if ($fanar_regex == 1 || !isset($data['fanar_cement'])) { // true fanar_cement 
+                                    $workers_regex = preg_match('/^[0-9]{0,11}$/' , $data['workers']);
+                                    if ($workers_regex == 1 || !isset($data['workers'])) { // true workers_regex 
+                                        $cement_regex = preg_match('/^[0-9]{0,11}$/' , $data['cement_consuption']);
+                                        if ($cement_regex == 1 || !isset($data['cement_consuption'])) { // true cement_consuption 
+                                            $bricks_regex = preg_match('/^[0-9]{0,11}$/' , $data['cement_bricks']);
+                                            if ($bricks_regex == 1 || !isset($data['cement_bricks'])) { // true bricks_regex 
+                                                $steel_regex = preg_match('/^[0-9]{0,11}$/' , $data['steel_consumption']);
+                                                if ($steel_regex == 1 || !isset($data['steel_consumption'])) { // true steel_consumption
+                                                    $wood_regex = preg_match('/^[0-9]{0,11}$/' , $data['wood_meters']);
+                                                    if ($wood_regex == 1 || !isset($data['wood_meters'])) { // true wood_meters 
+                                                        $no_of_mixers_regex = preg_match('/^[0-9]{0,11}$/' , $data['no_of_mixers']);
+                                                        if ($no_of_mixers_regex == 1 || !isset($data['no_of_mixers'])) { // true no_of_mixers 
+                                                            $capital_regex = preg_match('/^[0-9]{0,11}$/' , $data['capital']);
+                                                            if ($capital_regex == 1 || !isset($data['capital'])) { // true capital 
+                                                                ////yes or no validation values
+                                                                if($data['has_mixers'] != null ){
+                                                                    if($data['has_mixers'] != "نعم" ){
+                                                                        if($data['has_mixers'] != "لا"){         
+                                                                            array_push($GLOBALS['review'],$data['name']);   
+                                                                        }
+                                                                    }   
+                                                                }
+                                                                if($data['has_wood'] != null ){
+                                                                    if($data['has_wood'] != "نعم" ){
+                                                                        if($data['has_wood'] != "لا"){         
+                                                                            array_push($GLOBALS['review'],$data['name']);   
+                                                                        }
+                                                                    }   
+                                                                }
+                                                                if($data['has_sub_contractor'] != null ){
+                                                                    if($data['has_sub_contractor'] != "نعم" ){
+                                                                        if($data['has_sub_contractor'] != "لا"){         
+                                                                            array_push($GLOBALS['review'],$data['name']);   
+                                                                        }
+                                                                    }   
+                                                                }       
+
+                                                                $seller1_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['seller1']);
+                                                                if ($seller1_regex == 1 || !isset($data['seller1'])) { // true seller1 
+
+                                                                    $seller2_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['seller2']);
+                                                                    if ($seller2_regex == 1 || !isset($data['seller2'])) { // true seller2 
+
+                                                                        $seller3_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['seller3']);
+                                                                        if ($seller3_regex == 1 || !isset($data['seller3'])) { // true seller3
+
+                                                                            $seller4_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['seller4']);
+                                                                            if ($seller4_regex == 1 || !isset($data['seller4'])) { // true seller4
+
+                                                                                $sub1_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' ,$data['sub_contractor1']);
+                                                                                if ($sub1_regex == 1 || !isset($data['sub_contractor1'])) { // true sub1
+
+                                                                                    $sub2_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' ,$data['sub_contractor2']);
+                                                                                    if ($sub2_regex == 1 || !isset($data['sub_contractor2'])) { // true sub2
+
+                                                                                        if($data['status'] != null ){
+                                                                                            if($data['status'] != "To Be Reviewed" ){
+                                                                                                if($data['status'] != "Reviewed"){         
+                                                                                                    array_push($GLOBALS['review'],$data['name']); 
+                                                                                                }
+                                                                                            }   
+                                                                                        }
+                                                                                        if($data['call_status'] != null ){
+                                                                                            if($data['call_status'] != "To Be Reviewed" ){
+                                                                                                if($data['call_status'] != "Reviewed"){         
+                                                                                                    array_push($GLOBALS['review'],$data['name']); 
+                                                                                                }
+                                                                                            }   
+                                                                                        }
+
+                                                                                        $credit_debit_regex = preg_match('/^[\pL\s]+$/u' , $data['credit_debit']);
+                                                                                        //credit_debit check
+                                                                                        if ($credit_debit_regex == 1 || !isset($data['credit_debit'])) { // true credit debit 
+
+                                                                                             $area_regex = preg_match('/^[\pL\s]+$/u' , $data['area']);
+                                                                                            if ($area_regex == 1 || !isset($data['area'])) { // true area 
+
+                                                                                                $cont_type_regex = preg_match('/^[\pL\s]+$/u' , $data['cont_type']);
+                                                                                                if ($cont_type_regex == 1 || !isset($data['cont_type'])) { // true cont_type 
+
+                                                                                                     try{
+                                                                                                            if ($GLOBALS['Review_Id']) { //update  
+                                                                                $update_review = Review::find($GLOBALS['Review_Id']);
+                                                                                $update_review->Contractor_Id =$Contractor_Id;
+                                                                                $update_review->Long = $data['long'];
+                                                                                $update_review->Lat = $data['lat'];
+                                                                                $update_review->Project_NO = $data['project_no'];
+                                                                                $update_review->Portland_Cement = $data['portland_cement'];
+                                                                                $update_review->Resisted_Cement = $data['resisted_cement'];
+                                                                                $update_review->Eng_Cement = $data['eng_cement'];
+                                                                                $update_review->Saed_Cement = $data['saed_cement'];
+                                                                                $update_review->Fanar_Cement = $data['fanar_cement'];
+                                                                                $update_review->Workers =$data['workers'];
+                                                                                $update_review->Cement_Consuption = $data['cement_consuption'];
+                                                                                $update_review->Cement_Bricks =$data['cement_bricks'];
+                                                                                $update_review->Steel_Consumption = $data['steel_consumption'];
+                                                                                $update_review->Has_Wood = $data['has_wood'];
+                                                                                $update_review->Wood_Meters =$data['wood_meters'];
+                                                                                $update_review->Has_Mixers=$data['has_mixers'];
+                                                                                $update_review->No_Of_Mixers= $data['no_of_mixers'];
+                                                                                $update_review->Capital = $data['capital'];
+                                                                                $update_review->Credit_Debit = $data['credit_debit'];
+                                                                                $update_review->Sub_Contractor1 =$data['sub_contractor1'];
+                                                                                $update_review->Sub_Contractor2 =$data['sub_contractor2'];
+                                                                                $update_review->Has_Sub_Contractor =$data['has_sub_contractor'];
+                                                                                $update_review->Seller1 =$data['seller1'];
+                                                                                $update_review->Seller2 =$data['seller2'];
+                                                                                $update_review->Seller3 =$data['seller3'];
+                                                                                $update_review->Seller4 =$data['seller4'];
+                                                                                $update_review->Status=$data['status'];
+                                                                                $update_review->Call_Status= $data['call_status'];
+                                                                                $update_review->Area=$data['area'];
+                                                                                $update_review->Cont_Type= $data['cont_type']; 
+                                                                                $update_review->save();
+
+                                                                                                            }
+                                                                                                            else {
+                                                                                                                $review->save();
+                                                                                                            }
+                                                                                                            
+                                                                                                        }
+                                                                                                        catch (\Exception $e){
+                                                                                                            return redirect('/Charts/TypesCharts');    
+                                                                                                        }
+
+                                                                                                }
+                                                                                                else {
+                                                                                                    array_push($GLOBALS['review'],$data['name']);  
+                                                                                                }
+
+                                                                                            }
+                                                                                            else {
+                                                                                                array_push($GLOBALS['review'],$data['name']);  
+                                                                                            }
+
+                                                                                        }
+                                                                                        else {
+                                                                                          array_push($GLOBALS['review'],$data['name']);  
+                                                                                        }
+
+                                                                                    }
+                                                                                    else {
+                                                                                        array_push($GLOBALS['review'],$data['name']);  
+                                                                                    }
+
+                                                                                }
+                                                                                else {
+                                                                                    array_push($GLOBALS['review'],$data['name']);  
+                                                                                }
+
+                                                                            }
+                                                                            else {
+                                                                                array_push($GLOBALS['review'],$data['name']);  
+                                                                            }
+
+                                                                        }
+                                                                        else {
+                                                                            array_push($GLOBALS['review'],$data['name']);  
+                                                                        }
+
+                                                                    }
+                                                                    else {
+                                                                        array_push($GLOBALS['review'],$data['name']);  
+                                                                    }
+
+                                                                } 
+                                                                else {
+                                                                    array_push($GLOBALS['review'],$data['name']);  
+                                                                }
+
+                                                            }
+                                                            else {
+                                                                array_push($GLOBALS['review'],$data['name']);  
+                                                            }
+
+                                                        }
+                                                        else {
+                                                            array_push($GLOBALS['review'],$data['name']);  
+                                                        }
+                                                    }
+                                                    else {
+                                                        array_push($GLOBALS['review'],$data['name']);  
+                                                    }
+                                                }
+                                                else {
+                                                    array_push($GLOBALS['review'],$data['name']);  
+                                                }
+
+                                            }
+                                            else {
+                                                array_push($GLOBALS['review'],$data['name']);  
+                                            }
+
+                                        }
+                                        else {
+                                            array_push($GLOBALS['review'],$data['name']);  
+                                        }
+
+                                    }
+                                    else {
+                                        array_push($GLOBALS['review'],$data['name']);  
+                                    }
+                                }
+                                else {
+                                    array_push($GLOBALS['review'],$data['name']);  
+                                }
+                            }
+                            else {
+                                array_push($GLOBALS['review'],$data['name']);  
+                            }
+
+                        }
+                        else {
+                            array_push($GLOBALS['review'],$data['name']);  
+                        }
+                    }
+                    else {
+                        array_push($GLOBALS['review'],$data['name']);  
+                    }
+                }
+                else {
+                    array_push($GLOBALS['review'],$data['name']);  
+                }
+            }
+            else {
+                array_push($GLOBALS['review'],$data['name']);  
+            }
+
+
+        } //end foreach
+
+        if ( !empty($GLOBALS['review'] )) {
+            $GLOBALS['review'] = array_unique($GLOBALS['review']);
+            $ReviewErr = $ReviewErr.implode(" \n ",$GLOBALS['review']);
+            $ReviewErr = nl2br($ReviewErr);  
+            $cookie_name = 'ReviewErr';
+            $cookie_value = $ReviewErr;
+            setcookie($cookie_name, $cookie_value, time() + (60), "/");
+        }
+        else {
+           $ReviewErr = null;
+        }
+
+
+    } // end validate review function
+
     public function importreview(){
         $importbtn= Request::get('submit'); 
         if(isset($importbtn))
@@ -875,183 +820,17 @@ $index5 = 0;
             $filename = Input::file('file')->getClientOriginalName();
             $Dpath = base_path();
             $upload_success =Input::file('file')->move( $Dpath, $filename);       
-        Excel::load($upload_success, function($reader)
-            {       
-                $results = $reader->get()->toArray(); 
-            foreach ($results[0] as $data)
-            {      
-                $contractor = new Contractor;        
-                $contractor->Name = $data['name'];
-                $contractor->Goverment = $data['government'];
-                $contractor->City = $data['city'];
-                $contractor->Address = $data['address'];
-                $contractor->Education = $data['education'];
-                $contractor->Facebook_Account = $data['facebook'];
-                $contractor->Computer = $data['computer'];
-                $contractor->Email = $data['mail'];
-                $contractor->Birthday =$data['birthday'];
-                $contractor->Tele1 =$data['mobile1'];
-                $contractor->Tele2 =$data['mobile2'];
-                $contractor->Job = $data['job'];
-                $contractor->Code=uniqid('Cont');
-                $contractor->Phone_Type = $data['phone_type'];
-                $contractor->Nickname =$data['nick_name'];
-                $contractor->Religion=$data['religion'];
-                $contractor->Class=$data['class'];
-                $contractor->Home_Phone= $data['home_phone'];
-        if(isset($data['code'])){
-           $Pormoter_Id= Promoter::where('Code',$data['code'])->pluck('Pormoter_Id')->first();
-           $contractor->Pormoter_Id =$Pormoter_Id;
-        }  
-        if(isset($data['mobile1'])){
-$Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_Id')->first();
-        }      
-            try {
-                $contractor->save();  //new contractor
-                $review = new Review; 
-                $review->Contractor_Id = $contractor->Contractor_Id;
-                $review->Long = $data['long'];
-                $review->Lat = $data['lat'];
-                $review->Project_NO = $data['project_no'];
-                $review->Portland_Cement = $data['portland_cement'];
-                $review->Resisted_Cement = $data['resisted_cement'];
-                $review->Eng_Cement = $data['eng_cement'];
-                $review->Saed_Cement = $data['saed_cement'];
-                $review->Fanar_Cement = $data['fanar_cement'];
-                $review->Workers =$data['workers'];
-                $review->Cement_Consuption = $data['cement_consuption'];
-                $review->Cement_Bricks =$data['cement_bricks'];
-                $review->Steel_Consumption = $data['steel_consumption'];
-                $review->Has_Wood = $data['has_wood'];
-                $review->Wood_Meters =$data['wood_meters'];
-                $review->Has_Mixers=$data['has_mixers'];
-                $review->No_Of_Mixers= $data['no_of_mixers'];
-                $review->Capital = $data['capital'];
-                $review->Credit_Debit = $data['credit_debit'];
-                $review->Has_Sub_Contractor =$data['has_sub_contractor'];
-                $review->Seller1 =$data['seller1'];
-                $review->Seller2 =$data['seller2'];
-                $review->Seller3 =$data['seller3'];
-                $review->Seller4 =$data['seller4'];
-                $review->Status=$data['status'];
-                $review->Call_Status= $data['call_status'];
-                $review->Area=$data['area'];
-                $review->Cont_Type= $data['cont_type']; 
-                // $review->save();
-                app('App\Http\Controllers\ReviewsController')->ValidateReview($review);
-                
+            Excel::load($upload_success, function($reader)
+                {       
+                    $results = $reader->get()->toArray(); 
+                    app('App\Http\Controllers\ContractorsController')->ValidateContractor($results[0]);
+                    app('App\Http\Controllers\ReviewsController')->ValidateReview($results[0]);
+                });  //end excel
 
-            }
-            catch (\Exception $e) {
-                dd($e);
-                $exist_string= "Duplicate entry '".ltrim($data['mobile1'], '0')."' for key 'contractors_tele1_unique'";
-                $exist_string2= "Duplicate entry '".$data['mobile1']."' for key 'contractors_tele1_unique'";
-                $is_exist='null';
-                if ($exist_string2 == $e->errorInfo[2] || $exist_string == $e->errorInfo[2]) {  
-                        $is_exist='true';
-                }
-                if ($is_exist == 'true') { //update existing
-                    $updated_cont = Contractor::find($Contractor_Id);
-                    // dd($updated_cont);
-                    $updated_cont->Name =  $data['name'];
-                    $updated_cont->Goverment = $data['government'];
-                    $updated_cont->City = $data['city'];
-                    $updated_cont->Address = $data['address'];
-                    $updated_cont->Education = $data['education'];
-                    $updated_cont->Class = $data['class'];
-                    $updated_cont->Facebook_Account = $data['facebook_account'];
-                    $updated_cont->Computer = $data['computer'];
-                    $updated_cont->Email = $data['mail'];
-                    $updated_cont->Birthday =$data['birthday'];
-                    $updated_cont->Tele2 =$data['mobile2'];
-                    $updated_cont->Job = $data['job'];
-                    $updated_cont->Code=uniqid('Cont');
-                    $updated_cont->Phone_Type = $data['phone_type'];
-                    $updated_cont->Nickname =$data['nick_name'];
-                    $updated_cont->Religion=$data['religion'];
-                    $updated_cont->Home_Phone=$data['home_phone'];
-    if(isset($data['code'])){
-        $Pormoter_Id= Promoter::where('Code',$data['code'])->pluck('Pormoter_Id')->first();
-        $updated_cont->Pormoter_Id =$Pormoter_Id;
+            return redirect('/Charts/TypesCharts');           
+        }   //end if import btn  
+
     }
-                    $updated_cont->save();
-                    if($updated_cont->getreview) {  // contractor has review
-                        $updated_review = Review::find($updated_cont->getreview->Review_Id);
-                        $updated_review->Long = $data['long'];
-                        $updated_review->Lat = $data['lat'];
-                        $updated_review->Project_NO = $data['project_no'];
-                        $updated_review->Portland_Cement = $data['portland_cement'];
-                        $updated_review->Resisted_Cement = $data['resisted_cement'];
-                        $updated_review->Eng_Cement = $data['eng_cement'];
-                        $updated_review->Saed_Cement = $data['saed_cement'];
-                        $updated_review->Fanar_Cement = $data['fanar_cement'];
-                        $updated_review->Workers =$data['workers'];
-                        $updated_review->Cement_Consuption = $data['cement_consuption'];
-                        $updated_review->Cement_Bricks =$data['cement_bricks'];
-                        $updated_review->Steel_Consumption = $data['steel_consumption'];
-                        $updated_review->Has_Wood = $data['has_wood'];
-                        $updated_review->Wood_Meters =$data['wood_meters'];
-                        $updated_review->Has_Mixers=$data['has_mixers'];
-                        $updated_review->No_Of_Mixers= $data['no_of_mixers'];
-                        $updated_review->Capital = $data['capital'];
-                        $updated_review->Credit_Debit = $data['credit_debit'];
-                        $updated_review->Has_Sub_Contractor =$data['has_sub_contractor'];
-                        $updated_review->Seller1 =$data['seller1'];
-                        $updated_review->Seller2 =$data['seller2'];
-                        $updated_review->Seller3 =$data['seller3'];
-                        $updated_review->Seller4 =$data['seller4'];
-                        $updated_review->Status=$data['status'];
-                        $updated_review->Call_Status= $data['call_status'];
-                        $updated_review->Area=$data['area'];
-                        $updated_review->Cont_Type= $data['cont_type']; 
-                        // $updated_review->save();
-                app('App\Http\Controllers\ReviewsController')->ValidateReview($updated_review);
-                    } // end update review 
-                else {  // contractor has no review
-                    // dd('else');
-                        $new_review = new Review;
-                        $new_review->Long = $data['long'];
-                        $new_review->Lat = $data['lat'];
-                        $new_review->Project_NO = $data['project_no'];
-                        $new_review->Portland_Cement = $data['portland_cement'];
-                        $new_review->Resisted_Cement = $data['resisted_cement'];
-                        $new_review->Eng_Cement = $data['eng_cement'];
-                        $new_review->Saed_Cement = $data['saed_cement'];
-                        $new_review->Fanar_Cement = $data['fanar_cement'];
-                        $new_review->Workers =$data['workers'];
-                        $new_review->Cement_Consuption = $data['cement_consuption'];
-                        $new_review->Cement_Bricks =$data['cement_bricks'];
-                        $new_review->Steel_Consumption = $data['steel_consumption'];
-                        $new_review->Has_Wood = $data['has_wood'];
-                        $new_review->Wood_Meters =$data['wood_meters'];
-                        $new_review->Has_Mixers=$data['has_mixers'];
-                        $new_review->No_Of_Mixers= $data['no_of_mixers'];
-                        $new_review->Capital = $data['capital'];
-                        $new_review->Credit_Debit = $data['credit_debit'];
-                        $new_review->Has_Sub_Contractor =$data['has_sub_contractor'];
-                        $new_review->Seller1 =$data['seller1'];
-                        $new_review->Seller2 =$data['seller2'];
-                        $new_review->Seller3 =$data['seller3'];
-                        $new_review->Seller4 =$data['seller4'];
-                        $new_review->Status=$data['status'];
-                        $new_review->Call_Status= $data['call_status'];
-                        $new_review->Area=$data['area'];
-                        $new_review->Cont_Type= $data['cont_type'];
-                        $new_review->Contractor_Id= $updated_cont->Contractor_Id; 
-                        $new_review->save();
-                }   // end contractor has no review 
-
-                } //end if contractor exists
-            
-            } //catch end
-       
-            }  //end if review exists        
-    });  //end excel
-
-    return redirect('/Charts/TypesCharts');           
-    } 
-
-}
 
      public function exportreview()
     {
@@ -1140,7 +919,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
         }
     $sheet->fromArray($data, null, 'A2', false, false);
     }); })->download('xls');
-    return redirect('/reviews');  
+    return redirect('/Charts/TypesCharts');  
     }
              
 
@@ -1251,7 +1030,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
             $review->Cont_Type=Request::get('cont_type');
 
             $review->save();
-            return redirect('/reviews');
+            return redirect('/Charts/TypesCharts');
     }
 }
     public function edit($id)
@@ -1361,7 +1140,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                 // dd(request()->all());
                 // dd($review->Sub_Contractor1);
                 $review->save();
-                return redirect('/reviews');
+                return redirect('/Charts/TypesCharts');
             }
 
     }
@@ -1370,7 +1149,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
     {
         $review = Review::find($id);
         $review->delete();
-        return redirect('/reviews');
+        return redirect('/Charts/TypesCharts');
     }
 
 

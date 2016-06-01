@@ -8,6 +8,21 @@
     </div>
 </div>
 
+<script type="text/javascript">
+	window.onload = function() {
+		var cookies = document.cookie.split(";");
+ 
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+
+	};
+</script>
+
+
 <h4>Chart analysis for cement types usage</h4>
 <div id="perf_div"></div>
 {!! \Lava::render('ColumnChart', 'MyStocks', 'perf_div') !!}
@@ -19,140 +34,26 @@
 <br/>
 
 <?php
+
+//ContractorErr 
+	if(!empty($_COOKIE['ContractorErr'])) {	    
+		echo "<div><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['ContractorErr'];
+		echo "</div> </div>";
+	} 
+//ReviewErr 
+	if(!empty($_COOKIE['ReviewErr'])) {	    
+		echo "<div><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['ReviewErr'];
+		echo "</div> </div>";
+	} 
+
 //File
 	if(!empty($_COOKIE['FileError'])) {	    
-		echo "<div id='FileError'><div class='alert alert-block alert-danger fade in center'>";
+		echo "<div class='alert alert-block alert-danger fade in center'>";
 		echo $_COOKIE['FileError'];
-		echo "</div> </div>";
+		echo "</div>";
 	} 
-	if(!empty($_COOKIE['Project_NOErr'])) {	    
-		echo "<div id='Project_NOErr'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Project_NOErr'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Portland_Err'])) {	    
-		echo "<div id='Portland_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Portland_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Resisted__Err'])) {	    
-		echo "<div id='Resisted__Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Resisted__Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Eng_regex_Err'])) {	    
-		echo "<div id='Eng_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Eng_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Saed_regex_Err'])) {	    
-		echo "<div id='Saed_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Saed_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Fanar_regex_Err'])) {	    
-		echo "<div id='Fanar_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Fanar_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Workers_regex_Err'])) {	    
-		echo "<div id='Workers_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Workers_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Cement_regex_Err'])) {	    
-		echo "<div id='Cement_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Cement_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Bricks_regex_Err'])) {	    
-		echo "<div id='Bricks_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Bricks_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Steel_regex_Err'])) {	    
-		echo "<div id='Steel_regex_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Steel_regex_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['wood_meters_Err'])) {	    
-		echo "<div id='wood_meters_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['wood_meters_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Wood_Consumption_Err'])) {	    
-		echo "<div id='Wood_Consumption_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Wood_Consumption_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['No_Of_Mixers_Err'])) {	    
-		echo "<div id='No_Of_Mixers_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['No_Of_Mixers_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Capital_Err'])) {	    
-	echo "<div id='Capital_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Capital_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['MixerErr'])) {	    
-	echo "<div id='MixerErr'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['MixerErr'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Has_WoodErr'])) {	    
-	echo "<div id='Has_WoodErr'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Has_WoodErr'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Has_SubErr'])) {	    
-	echo "<div id='Has_SubErr'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Has_SubErr'];
-		echo "</div> </div>";
-	} 
-
-	if(!empty($_COOKIE['Seller1_Err'])) {	    
-	echo "<div id='Seller1_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Seller1_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Seller2_Err'])) {	    
-	echo "<div id='Seller2_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Seller2_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Seller3_Err'])) {	    
-	echo "<div id='Seller3_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Seller3_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['Seller4_Err'])) {	    
-	echo "<div id='Seller4_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Seller4_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['sub1_Err'])) {	    
-	echo "<div id='sub1_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['sub1_Err'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['sub1_Err'])) {	    
-	echo "<div id='sub1_Err'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['sub1_Err'];
-		echo "</div> </div>";
-	} 
-	
-	if(!empty($_COOKIE['Call_StatusErr'])) {	    
-	echo "<div id='Call_StatusErr'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Call_StatusErr'];
-		echo "</div> </div>";
-	} 
-	if(!empty($_COOKIE['StatusErr'])) {	    
-	echo "<div id='StatusErr'><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['StatusErr'];
-		echo "</div> </div>";
-	} 
-
 
 ?>
 
@@ -351,7 +252,7 @@
 });
         
 $('.reviews tfoot th').each(function () {
-    var title = $('.reviews thead td').eq($(this).index()).text();
+    var title = $('.reviews thead th').eq($(this).index()).text();
 	$(this).html( '<input type="text" placeholder="بحث '+title+'" />' );
 });
 

@@ -97,7 +97,7 @@ body{
 </head>
 
 
-<body class="rtl" onunload="deleteAllCookies()">
+<body class="rtl" onload="deleteAllCookies()">
 
 
 <nav class="navbar navbar-inverse">
