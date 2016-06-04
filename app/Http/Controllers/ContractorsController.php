@@ -49,10 +49,10 @@ class ContractorsController extends Controller
         $phone_arry = array('yesCount'=>0,'noCount'=>0,'notRecordedCount'=>0);
 
         for ($i=0; $i<count($contractors); $i++) {           
-            if ($contractors[$i]->Phone_Type == 'نعم') {
+            if ($contractors[$i]->Phone_Type == 'ﻢﻌﻧ') {
                 $PhoneyesCount +=1;
             }
-            else if ($contractors[$i]->Phone_Type == 'لا') {
+            else if ($contractors[$i]->Phone_Type == 'ﻻ') {
                 $PhonenoCount +=1;
             }
             else if ($contractors[$i]->Phone_Type == null) {
@@ -81,10 +81,10 @@ class ContractorsController extends Controller
         $CompnotRecordedCount = 0; 
         $Computer_arry = array('yesCount'=>0,'noCount'=>0,'notRecordedCount'=>0);
         for ($i=0; $i<count($contractors); $i++) {           
-            if ($contractors[$i]->Computer == 'نعم') {
+            if ($contractors[$i]->Computer == 'ﻢﻌﻧ') {
                 $CompyesCount +=1;
             }
-            else if ($contractors[$i]->Computer == 'لا') {
+            else if ($contractors[$i]->Computer == 'ﻻ') {
                 $CompnoCount +=1;
             }
             else if ($contractors[$i]->Computer == null) {
@@ -108,10 +108,10 @@ class ContractorsController extends Controller
         $Facebook_arry = array('yesCount'=>0,'noCount'=>0,'notRecordedCount'=>0);
 
         for ($i=0; $i<count($contractors); $i++) {           
-            if ($contractors[$i]->Has_Facebook == 'نعم') {
+            if ($contractors[$i]->Has_Facebook == 'ﻢﻌﻧ') {
                 $FaceyesCount +=1;
             }
-            else if ($contractors[$i]->Has_Facebook == 'لا') {
+            else if ($contractors[$i]->Has_Facebook == 'ﻻ') {
                 $FacenoCount +=1;
             }
             else if ($contractors[$i]->Has_Facebook == null) {
@@ -138,10 +138,10 @@ class ContractorsController extends Controller
         for ($i=0; $i<count($contractors); $i++) { 
             $review = $contractors[$i]->getreview; 
             if ($review) {                            
-                if ($review->Has_Mixers == 'نعم') {
+                if ($review->Has_Mixers == 'ﻢﻌﻧ') {
                         $MixyesCount +=1;
                     }
-                    else if ($review->Has_Mixers == 'لا') {
+                    else if ($review->Has_Mixers == 'ﻻ') {
                         $MixnoCount +=1;
                     }
                     else if ($review->Has_Mixers == null) {
@@ -168,10 +168,10 @@ class ContractorsController extends Controller
         for ($i=0; $i<count($contractors); $i++) { 
             $review = $contractors[$i]->getreview;
             if ($review) {                  
-                if ($review->Has_Sub_Contractor == 'نعم') {
+                if ($review->Has_Sub_Contractor == 'ﻢﻌﻧ') {
                     $SubyesCount +=1;
                 }
-                else if ($review->Has_Sub_Contractor == 'لا') {
+                else if ($review->Has_Sub_Contractor == 'ﻻ') {
                     $SubnoCount +=1;
                 }
                 else if ($review->Has_Sub_Contractor == null) {
@@ -272,7 +272,7 @@ class ContractorsController extends Controller
                 $excel->sheet('sheetname',function($sheet)
                 {        
                      $sheet->appendRow(1, array(
-            'اسم المقاول','المركز','اللقب','المهنة','المحافظة','التعليم','اسم الشهرة ','الديانة ','تليفون 1','تليفون 2','التليفون الارضي ','العنوان','البريد الاليكتروني','هل يمتلك حساب فيسبوك','اسم حساب الفيسبوك',' نوع الهاتف','الكمبيوتر ','تاريخ الميلاد','اسم المندوب','الفئة','الكود'));
+            'الكود','الفئة','اسم المندوب','تاريخ الميلاد',' الكمبيوتر','نوع الهاتف ','حساب الفيسبوك','هل يمتلك فيسبوك','البريد الاليكتروني','العنوان',' التليفون الارضي','2 تليفون','1 تليفون',' الديانة',' اسم الشهرى','التعليم','المحافظة','المهنة','اللقب','المركز','اسم المقاول'));
                 $data=[];
 
                     $ContractorReport=ContractorReport::all();                 
@@ -320,12 +320,13 @@ class ContractorsController extends Controller
             return view('contractors.create',compact('promoters','govs'));        
     }
 
-    public function ValidateContractor($results){ 
+    public function ValidateContractor($data){ 
         $GLOBALS['contractor']= array();   
-        $GLOBALS['Review_Id']= null;     
+        $GLOBALS['Review_Id']= null;   
+        $GLOBALS['Doublecontractor']= array();         
         $ContractorErr = 'البيانات غير صحيحة للمقاول: ';
-    foreach ($results as $data){      
-        // dd( urlencode($data['email']), $data);
+        $DubleContractorErr = 'البيانات موجودة بالفعل للمقاول: ';
+
         $contractor =new Contractor();
         $contractor->Name = $data['name'];
         $contractor->Goverment = $data['gov'];
@@ -382,30 +383,31 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                                             if ($Mail_regex == 1 || !isset($data['email'])) { //mail  
                                                 //yes or no value validation
                                                 if($data['computer'] != null ){
-                                                    if($data['computer'] != "نعم" ){
-                                                        if($data['computer'] != "لا"){         
+                                                    if($data['computer'] != "ﻢﻌﻧ" ){
+                                                        if($data['computer'] != "ﻻ"){         
                                                             array_push($GLOBALS['contractor'],$data['name']); 
 
                                                         }
                                                     }   
                                                 } // end computer check
                                                 if($data['has_facebook'] != null ){
-                                                    if($data['has_facebook'] != "نعم" ){
-                                                        if($data['has_facebook'] != "لا"){         
+                                                    if($data['has_facebook'] != "ﻢﻌﻧ" ){
+                                                        if($data['has_facebook'] != "ﻻ"){         
                                                             array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
                                                 } // end has_facebook check
                                                 if($data['phone_type'] != null ){
-                                                    if($data['phone_type'] != "نعم" ){
-                                                        if($data['phone_type'] != "لا"){         
+                                                    if($data['phone_type'] != "ﻢﻌﻧ" ){
+                                                        if($data['phone_type'] != "ﻻ"){         
                                                             array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
                                                 } // end phone_type check
 
                                                 // Birthday_regex check
-                                                $Birthday_regex = preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/' , $data['birthday']);
+                                                $Bdate= explode (' ',$data['birthday']);
+                                                $Birthday_regex = preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/' , $Bdate[0]);                                             
                                                 if ($Birthday_regex == 1 || !isset($data['birthday'])) { 
                                                     //class check
                                                     $Class_regex = preg_match('/^[0-9]$/' , $data['class']);
@@ -426,11 +428,11 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                                                                     catch (\Exception $e) {
             //if contractor exists .. update it
                 $exist_string= "Duplicate entry '".ltrim($data['mobile1'], '0')."' for key 'contractors_tele1_unique'";
-
                 $exist_string2= "Duplicate entry '".$data['mobile1']."' for key 'contractors_tele1_unique'";
                 $is_exist='null';
                 if ($exist_string2 == $e->errorInfo[2] || $exist_string == $e->errorInfo[2]) {  
                         $is_exist='true';
+                        array_push($GLOBALS['Doublecontractor'],$data['name']);
                 }
                 if ($is_exist == 'true') { //update existing
                 $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_Id')->first();
@@ -459,6 +461,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                     $updated_cont->save();
                     if ($updated_cont->getreview) {
                        $GLOBALS['Review_Id']= $updated_cont->getreview->Review_Id;
+                       $GLOBALS['Cont_Id']= $updated_cont->Contractor_Id;
                     }
             } //end if contractor exists
 
@@ -476,8 +479,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                                                             }
                                                             else {
                                                                  array_push($GLOBALS['contractor'],$data['name']); 
-                                                                }               
-
+                                                                }             
 
                                                         }
                                                         else {
@@ -487,8 +489,6 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                                                     else {
                                                         array_push($GLOBALS['contractor'],$data['name']); 
                                                         }    
-
-
 
                                                 }
                                                 else {
@@ -539,10 +539,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                 array_push($GLOBALS['contractor'],$data['name']);  
         }
 
-         
-    }
         if ( !empty ($GLOBALS['contractor'] )) {
-            dd('false');
             $GLOBALS['contractor'] = array_unique($GLOBALS['contractor']);
             $ContractorErr = $ContractorErr.implode(" \n ",$GLOBALS['contractor']);
             $ContractorErr = nl2br($ContractorErr);  
@@ -553,6 +550,15 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
         else {
             $ContractorErr = null;
         }
+        if ( !empty ($GLOBALS['Doublecontractor'] )) {
+            $GLOBALS['Doublecontractor'] = array_unique($GLOBALS['Doublecontractor']);
+            $DubleContractorErr = $DubleContractorErr.implode(" \n ",$GLOBALS['Doublecontractor']);
+            $DubleContractorErr = nl2br($DubleContractorErr);  
+            $cookie_name = 'DubleContractorErr';
+            $cookie_value = $DubleContractorErr;
+            setcookie($cookie_name, $cookie_value, time() + (60), "/");
+        }
+       
 }
 
     public function importcontractor()
@@ -562,7 +568,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
         if(isset($importbtn))
         {   
             if(!Input::file('file')){  //if no file selected  
-                $errFile = "الرجاء اختيار الملف المطلوب تحميله";                
+                $errFile = "ﻪﻠﻴﻤﺤﺗ ﺏﻮﻠﻄﻤﻟا ﻒﻠﻤﻟا ﺭﺎﻴﺘﺧا ءﺎﺟﺮﻟا";                
                 $cookie_name = 'FileError';
                 $cookie_value = $errFile;
                 setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day
@@ -576,7 +582,10 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
         Excel::load($upload_success, function($reader)
             {                       
                 $results = $reader->get()->toArray();
-                app('App\Http\Controllers\ContractorsController')->ValidateContractor($results[0]);
+                foreach ($results[0] as $data) {
+                    app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
+                }
+                
 
             }); //end excel
         
@@ -594,7 +603,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
             $excel->sheet('sheetname',function($sheet)
             {        
       $sheet->appendRow(1, array(
-            'اسم المقاول','المركز','اللقب','المهنة','المحافظة','التعليم','اسم الشهرة ','الديانة ','تليفون 1','تليفون 2','التليفون الارضي ','العنوان','البريد الاليكتروني','هل يمتلك حساب فيسبوك','اسم حساب الفيسبوك',' نوع الهاتف','الكمبيوتر ','تاريخ الميلاد','اسم المندوب','الفئة','الكود'));
+            'ﺩﻮﻜﻟا','ﺔﺌﻔﻟا','ﺏﻭﺪﻨﻤﻟا ﻢﺳا','ﺩﻼﻴﻤﻟا ﺦﻳﺭﺎﺗ',' ﺮﺗﻮﻴﺒﻤﻜﻟا','ﻒﺗﺎﻬﻟا ﻉﻮﻧ ','ﻙﻮﺒﺴﻴﻔﻟا ﺏﺎﺴﺣ ﻢﺳا','ﻙﻮﺒﺴﻴﻓ ﺏﺎﺴﺣ ﻚﻠﺘﻤﻳ ﻞﻫ','ﻲﻧﻭﺮﺘﻜﻴﻟﻻا ﺪﻳﺮﺒﻟا','ﻥاﻮﻨﻌﻟا',' ﻲﺿﺭﻻا ﻥﻮﻔﻴﻠﺘﻟا','2 ﻥﻮﻔﻴﻠﺗ','1 ﻥﻮﻔﻴﻠﺗ',' ﺔﻧﺎﻳﺪﻟا',' ﺓﺮﻬﺸﻟا ﻢﺳا','ﻢﻴﻠﻌﺘﻟا','ﺔﻈﻓﺎﺤﻤﻟا','ﺔﻨﻬﻤﻟا','ﺐﻘﻠﻟا','ﺰﻛﺮﻤﻟا','ﻝﻭﺎﻘﻤﻟا ﻢﺳا'));
                 $data=[];
 
                 $contractors=Contractor::all();
@@ -642,24 +651,24 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
     {
     $inputs = Input :: all();
     $messages = array(
-        'name.regex'    =>'الرجاء ادخالا الاسم صحيح',
-        'goverment.regex' =>'أدخل الحروف صحيحة',
-        'city.regex'    =>'أدخل الحروف صحيحة',
-        'address.regex' =>'أدخل الحروف صحيحة',
-        'required'      => 'برجاء ادخال البيانات',
-        'unique'        => 'هذه القيم موجودة بالفعل',
-        'email'         =>'ادخل الايميل بطريقة صحيحة',
-        'tele1.regex'   =>'أدخل رقم التليفون صحيح',
-        'tele2.regex'   =>'أدخل رقم التليفون صحيح',
-        'home_phone.regex'=>'أدخل رقم التليفون صحيح',
-        'alpha'         => 'أدخل حروف فقط',
-        'nickname.regex'=>'أدخل الحروف صحيحة',
-        'religion.regex'=>'أدخل الحروف صحيحة',
-        'fame.regex'    =>'أدخل الحروف صحيحة',
-        'tele2.different'=> 'هذه القيمه مكرره',
-        'tele1.different'=> 'هذه القيمه مكرره',
-        'home_phone.different'=> 'هذه القيمه مكرره',
-        'job.regex'=>'أدخل الحروف صحيحة',
+        'name.regex'    =>'ﺢﻴﺤﺻ ﻢﺳﻻا ﻻﺎﺧﺩا ءﺎﺟﺮﻟا',
+        'goverment.regex' =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'city.regex'    =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'address.regex' =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'required'      => 'ﺕﺎﻧﺎﻴﺒﻟا ﻝﺎﺧﺩا ءﺎﺟﺮﺑ',
+        'unique'        => 'ﻞﻌﻔﻟﺎﺑ ﺓﺩﻮﺟﻮﻣ ﻢﻴﻘﻟا ﻩﺬﻫ',
+        'email'         =>'ﺔﺤﻴﺤﺻ ﺔﻘﻳﺮﻄﺑ ﻞﻴﻤﻳﻻا ﻞﺧﺩا',
+        'tele1.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
+        'tele2.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
+        'home_phone.regex'=>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
+        'alpha'         => 'ﻂﻘﻓ ﻑﻭﺮﺣ ﻞﺧﺩﺃ',
+        'nickname.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'religion.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'fame.regex'    =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'tele2.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
+        'tele1.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
+        'home_phone.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
+        'job.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
 
     );
 
@@ -772,24 +781,24 @@ $validator = Validator::make(Input::all(), $rules,$messages);
         );
         
         $messages = array(
-            'birthday.regex'    => 'ادخل التاريخ كلاتي 2001-02-28',
-            'name.regex'        =>'الرجاء ادخالا الاسم صحيح',
-            'goverment.regex'   =>'أدخل الحروف صحيحة',
-            'city.regex'        =>'أدخل الحروف صحيحة',
-            'address.regex' =>'أدخل الحروف صحيحة',
-            'required'      => 'برجاء ادخال البيانات',
-            'unique'        => 'هذه القيم موجودة بالفعل',
-            'mail.email'         =>'ادخل الايميل بطريقة صحيحة',
-            'tele1.regex'   =>'أدخل رقم التليفون صحيح',
-            'tele2.regex'   =>'أدخل رقم التليفون صحيح',
-            'home_phone.regex'=>'أدخل رقم التليفون صحيح',
-            'alpha'         => 'أدخل حروف فقط',
-            'job.regex'     =>'أدخل الحروف صحيحة',
-            'nickname.regex'=>'أدخل الحروف صحيحة',
-            'religion.regex'=>'أدخل الحروف صحيحة',
-            'fame.regex'    =>'أدخل الحروف صحيحة',
-            'tele2.different'=> 'هذه القيمه مكرره',
-            'tele1.different'=> 'هذه القيمه مكرره',
+            'birthday.regex'    => '28-02-2001 ﻲﺗﻼﻛ ﺦﻳﺭﺎﺘﻟا ﻞﺧﺩا',
+            'name.regex'        =>'ﺢﻴﺤﺻ ﻢﺳﻻا ﻻﺎﺧﺩا ءﺎﺟﺮﻟا',
+            'goverment.regex'   =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'city.regex'        =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'address.regex' =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'required'      => 'ﺕﺎﻧﺎﻴﺒﻟا ﻝﺎﺧﺩا ءﺎﺟﺮﺑ',
+            'unique'        => 'ﻞﻌﻔﻟﺎﺑ ﺓﺩﻮﺟﻮﻣ ﻢﻴﻘﻟا ﻩﺬﻫ',
+            'mail.email'         =>'ﺔﺤﻴﺤﺻ ﺔﻘﻳﺮﻄﺑ ﻞﻴﻤﻳﻻا ﻞﺧﺩا',
+            'tele1.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
+            'tele2.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
+            'home_phone.regex'=>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
+            'alpha'         => 'ﻂﻘﻓ ﻑﻭﺮﺣ ﻞﺧﺩﺃ',
+            'job.regex'     =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'nickname.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'religion.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'fame.regex'    =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+            'tele2.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
+            'tele1.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
         );
 
         $validation = Validator::make($inputs,$rules,$messages);

@@ -506,16 +506,12 @@ $index5 = 0;
         return view('reviews.QuantityCharts');
     }
 
-    public function ValidateReview($results){  
+    public function ValidateReview($data){  
         $GLOBALS['review']= array();  
+        // dd($GLOBALS['Review_Id'], $GLOBALS['Cont_Id']);
         $ReviewErr = 'مراجعة البيانات غير صحيحة للمقاول: ';    
-        foreach ($results as $data) {
+        // foreach ($results as $data) {
             $review = new Review; 
-            if(isset($data['mobile1'])){
-                $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])
-                                            ->pluck('Contractor_Id')->first();
-            } 
-            $review->Contractor_Id =$Contractor_Id;
             $review->Long = $data['long'];
             $review->Lat = $data['lat'];
             $review->Project_NO = $data['project_no'];
@@ -640,9 +636,11 @@ $index5 = 0;
                                                                                                 if ($cont_type_regex == 1 || !isset($data['cont_type'])) { // true cont_type 
 
                                                                                                      try{
+
                                                                                                             if ($GLOBALS['Review_Id']) { //update  
                                                                                 $update_review = Review::find($GLOBALS['Review_Id']);
-                                                                                $update_review->Contractor_Id =$Contractor_Id;
+                                                                                $update_review->Contractor_Id =$GLOBALS['Cont_Id'];
+                                                                                // $update_review->Contractor_Id =$Contractor_Id;
                                                                                 $update_review->Long = $data['long'];
                                                                                 $update_review->Lat = $data['lat'];
                                                                                 $update_review->Project_NO = $data['project_no'];
@@ -675,7 +673,9 @@ $index5 = 0;
                                                                                 $update_review->save();
 
                                                                                                             }
-                                                                                                            else {
+                                                                                                            else { //new review
+                                                                                                            $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_Id')->first();
+                                                                                                                $review->Contractor_Id =$Contractor_Id;
                                                                                                                 $review->save();
                                                                                                             }
                                                                                                             
@@ -788,7 +788,7 @@ $index5 = 0;
             }
 
 
-        } //end foreach
+        // } //end foreach
 
         if ( !empty($GLOBALS['review'] )) {
             $GLOBALS['review'] = array_unique($GLOBALS['review']);
@@ -823,8 +823,11 @@ $index5 = 0;
             Excel::load($upload_success, function($reader)
                 {       
                     $results = $reader->get()->toArray(); 
-                    app('App\Http\Controllers\ContractorsController')->ValidateContractor($results[0]);
-                    app('App\Http\Controllers\ReviewsController')->ValidateReview($results[0]);
+                    foreach ($results[0] as $data) {
+                        app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
+                        app('App\Http\Controllers\ReviewsController')->ValidateReview($data);
+                    }
+                   
                 });  //end excel
 
             return redirect('/Charts/TypesCharts');           
@@ -853,6 +856,13 @@ $index5 = 0;
             
         foreach ($reviews as $review)
         {
+            if ($review->getcontractor) {
+               if ($review->getcontractor->getpromoter) {
+                   $PormoterName = $review->getcontractor->getpromoter->Pormoter_Name;
+               }
+               else $PormoterName = " ";
+            }
+            else $PormoterName = " ";
             array_push($data,array(
 
                 $review->Status,
@@ -894,7 +904,7 @@ $index5 = 0;
                 $review->Seller3, 
                 $review->Seller4,
 
-                $review->getcontractor->getpromoter->Pormoter_Name,  
+                $PormoterName,  
                 $review->Project_NO,
 
                 $review->Cement_Consuption,

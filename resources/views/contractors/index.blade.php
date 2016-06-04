@@ -4,22 +4,14 @@
 <div id="perf_div"></div>
 {!! \Lava::render('ColumnChart', 'MyStocks', 'perf_div') !!}
 
-<script type="text/javascript">
-	window.onload = function() {
-		var cookies = document.cookie.split(";");
- 
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    }
-
-	};
-</script>
-
 
 <?php
+//Doublecontractor 
+	if(!empty($_COOKIE['Doublecontractor'])) {	    
+		echo "<div><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['Doublecontractor'];
+		echo "</div> </div>";
+	} 
 //ContractorErr 
 	if(!empty($_COOKIE['ContractorErr'])) {	    
 		echo "<div><div class='alert alert-block alert-danger fade in center'>";

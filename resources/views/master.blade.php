@@ -81,23 +81,35 @@ body{
         }
 </style>
 
-<script type="text/javascript">
-  function deleteAllCookies() {
-    var cookies = document.cookie.split(";");
- 
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    }
-}
-</script>
+<?php 
+  function RemoveCookies(){
+      if (isset($_COOKIE['ContractorErr'])) {
+          unset($_COOKIE['ContractorErr']);
+          setcookie('ContractorErr', null, -1, '/');     
+      }
+
+      if (isset($_COOKIE['ReviewErr'])) {
+          unset($_COOKIE['ReviewErr']);
+          setcookie('ReviewErr', null, -1, '/');    
+      }
+
+      if (isset($_COOKIE['FileError'])) {
+          unset($_COOKIE['FileError']);
+          setcookie('FileError', null, -1, '/');       
+      }
+      
+      if (isset($_COOKIE['DubleContractorErr'])) {
+          unset($_COOKIE['DubleContractorErr']);
+          setcookie('DubleContractorErr', null, -1, '/');       
+      }
+      
+  }
+?>
 
 </head>
 
 
-<body class="rtl" onload="deleteAllCookies()">
+<body class="rtl" onload="<?php echo RemoveCookies() ?>">
 
 
 <nav class="navbar navbar-inverse">
