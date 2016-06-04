@@ -24,8 +24,8 @@ class CreateContractorsTable extends Migration
             $table->string('Computer')->nullable();
             $table->string('Email', 150)->nullable();
             $table->date('Birthday')->nullable();
-            $table->integer('Tele1')->unique()->unsigned();
-            $table->integer('Tele2')->unique()->nullable()->unsigned();
+            $table->integer('Tele1')->unique()->unsigned()->default(null);
+            $table->integer('Tele2')->unique()->nullable()->unsigned()->default(null);
             $table->string('Job', 100)->nullable();
             $table->string('Class', 50)->nullable();
             $table->string('Phone_Type')->nullable();
@@ -37,7 +37,7 @@ class CreateContractorsTable extends Migration
                   ->onupdate('cascade');
 
             $table->string('Religion')->nullable();
-            $table->integer('Home_Phone')->unique()->nullable();
+            $table->integer('Home_Phone')->unique()->nullable()->unsigned()->default(null);
             $table->string('Code',40)->unique();
             $table->string('Fame',40)->nullable();        
 

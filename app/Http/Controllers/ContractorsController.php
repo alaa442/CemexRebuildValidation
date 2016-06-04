@@ -568,7 +568,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
         if(isset($importbtn))
         {   
             if(!Input::file('file')){  //if no file selected  
-                $errFile = "ﻪﻠﻴﻤﺤﺗ ﺏﻮﻠﻄﻤﻟا ﻒﻠﻤﻟا ﺭﺎﻴﺘﺧا ءﺎﺟﺮﻟا";                
+                $errFile = "الرجاء اختيار الملف الملطلوب تحميلة";                
                 $cookie_name = 'FileError';
                 $cookie_value = $errFile;
                 setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day
@@ -603,7 +603,7 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
             $excel->sheet('sheetname',function($sheet)
             {        
       $sheet->appendRow(1, array(
-            'ﺩﻮﻜﻟا','ﺔﺌﻔﻟا','ﺏﻭﺪﻨﻤﻟا ﻢﺳا','ﺩﻼﻴﻤﻟا ﺦﻳﺭﺎﺗ',' ﺮﺗﻮﻴﺒﻤﻜﻟا','ﻒﺗﺎﻬﻟا ﻉﻮﻧ ','ﻙﻮﺒﺴﻴﻔﻟا ﺏﺎﺴﺣ ﻢﺳا','ﻙﻮﺒﺴﻴﻓ ﺏﺎﺴﺣ ﻚﻠﺘﻤﻳ ﻞﻫ','ﻲﻧﻭﺮﺘﻜﻴﻟﻻا ﺪﻳﺮﺒﻟا','ﻥاﻮﻨﻌﻟا',' ﻲﺿﺭﻻا ﻥﻮﻔﻴﻠﺘﻟا','2 ﻥﻮﻔﻴﻠﺗ','1 ﻥﻮﻔﻴﻠﺗ',' ﺔﻧﺎﻳﺪﻟا',' ﺓﺮﻬﺸﻟا ﻢﺳا','ﻢﻴﻠﻌﺘﻟا','ﺔﻈﻓﺎﺤﻤﻟا','ﺔﻨﻬﻤﻟا','ﺐﻘﻠﻟا','ﺰﻛﺮﻤﻟا','ﻝﻭﺎﻘﻤﻟا ﻢﺳا'));
+            'الكود','الفئة','اسم المندوب','تاريخ الميلاد',' الكمبيوتر','نوع الهاتف ','حساب الفيسبوك','هل يمتلك فيسبوك','البريد الاليكتروني','العنوان',' التليفون الارضي','2 تليفون','1 تليفون',' الديانة',' اسم الشهرة','التعليم','المحافظة','المهنة','اللقب','المركز','اسم المقاول'));
                 $data=[];
 
                 $contractors=Contractor::all();
@@ -651,24 +651,23 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
     {
     $inputs = Input :: all();
     $messages = array(
-        'name.regex'    =>'ﺢﻴﺤﺻ ﻢﺳﻻا ﻻﺎﺧﺩا ءﺎﺟﺮﻟا',
-        'goverment.regex' =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-        'city.regex'    =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-        'address.regex' =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-        'required'      => 'ﺕﺎﻧﺎﻴﺒﻟا ﻝﺎﺧﺩا ءﺎﺟﺮﺑ',
-        'unique'        => 'ﻞﻌﻔﻟﺎﺑ ﺓﺩﻮﺟﻮﻣ ﻢﻴﻘﻟا ﻩﺬﻫ',
-        'email'         =>'ﺔﺤﻴﺤﺻ ﺔﻘﻳﺮﻄﺑ ﻞﻴﻤﻳﻻا ﻞﺧﺩا',
-        'tele1.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
-        'tele2.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
-        'home_phone.regex'=>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
-        'alpha'         => 'ﻂﻘﻓ ﻑﻭﺮﺣ ﻞﺧﺩﺃ',
-        'nickname.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-        'religion.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-        'fame.regex'    =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-        'tele2.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
-        'tele1.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
-        'home_phone.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
-        'job.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
+        'name.regex'    =>'الرجاء ادخال الاسم صحيح',
+        'goverment.regex' =>'الرجاء ادخال المحافظة صحيح',
+        'city.regex'    =>'الرجاء ادخال المركز صحيح',
+        'required'      => 'هذه البيانات مطلوبة',
+        'unique'        => 'هذه القيمة موجودة بالفعل',
+        'email'         =>'ادخل البريد الاليكتروني بطريقة صحيحة',
+        'tele1.regex'   =>'ادخل التليفون صحيح',
+        'tele2.regex'   =>'ادخل التليفون صحيح',
+        'home_phone.regex'=>'ادخل التليفون صحيح',
+        'alpha'         => 'ادخل الحروف صحيحة',
+        'nickname.regex'=>'ادخل التليفون صحيح',
+        'religion.regex'=>'ادخل التليفون صحيح',
+        'fame.regex'    =>'ادخل التليفون صحيح',
+        'tele2.different'=> 'هذه القيمة مكررة',
+        'tele1.different'=> 'هذه القيمة مكررة',
+        'home_phone.different'=> 'هذه القيمة مكررة',
+        'job.regex'=>'ادخل الحروف صحيحة',
 
     );
 
@@ -676,7 +675,6 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
         'name'      => array('regex:/^(?:[\p{L}\p{Mn}\p{Pd}\'                               \x{2019}]+(?:$|\s+)){2,}/u','required'),
         'goverment' => array('regex:/^[\pL\s]+$/u'),
         'city'      => array('regex:/^[\pL\s]+$/u'),
-        'address'   => array('regex:/^[\pL\s]+$/u'),
         'mail'      => array('email','unique:contractors,Email'),
         'birthday'  => array(
                     'regex:/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'),
@@ -758,7 +756,6 @@ $validator = Validator::make(Input::all(), $rules,$messages);
         'name'      => array('regex:/^(?:[\p{L}\p{Mn}\p{Pd}\'                               \x{2019}]+(?:$|\s+)){2,}/u','required'),
         'goverment' => array('regex:/^[\pL\s]+$/u'),
         'city'      => array('regex:/^[\pL\s]+$/u'),
-        'address'   => array('regex:/^[\pL\s]+$/u'),
         'birthday'  => array(
                     'regex:/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'),
         'mail' => array('email'),
@@ -781,24 +778,23 @@ $validator = Validator::make(Input::all(), $rules,$messages);
         );
         
         $messages = array(
-            'birthday.regex'    => '28-02-2001 ﻲﺗﻼﻛ ﺦﻳﺭﺎﺘﻟا ﻞﺧﺩا',
-            'name.regex'        =>'ﺢﻴﺤﺻ ﻢﺳﻻا ﻻﺎﺧﺩا ءﺎﺟﺮﻟا',
-            'goverment.regex'   =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'city.regex'        =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'address.regex' =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'required'      => 'ﺕﺎﻧﺎﻴﺒﻟا ﻝﺎﺧﺩا ءﺎﺟﺮﺑ',
-            'unique'        => 'ﻞﻌﻔﻟﺎﺑ ﺓﺩﻮﺟﻮﻣ ﻢﻴﻘﻟا ﻩﺬﻫ',
-            'mail.email'         =>'ﺔﺤﻴﺤﺻ ﺔﻘﻳﺮﻄﺑ ﻞﻴﻤﻳﻻا ﻞﺧﺩا',
-            'tele1.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
-            'tele2.regex'   =>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
-            'home_phone.regex'=>'ﺢﻴﺤﺻ ﻥﻮﻔﻴﻠﺘﻟا ﻢﻗﺭ ﻞﺧﺩﺃ',
-            'alpha'         => 'ﻂﻘﻓ ﻑﻭﺮﺣ ﻞﺧﺩﺃ',
-            'job.regex'     =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'nickname.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'religion.regex'=>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'fame.regex'    =>'ﺔﺤﻴﺤﺻ ﻑﻭﺮﺤﻟا ﻞﺧﺩﺃ',
-            'tele2.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
-            'tele1.different'=> 'ﻩﺭﺮﻜﻣ ﻪﻤﻴﻘﻟا ﻩﺬﻫ',
+            'name.regex'    =>'الرجاء ادخال الاسم صحيح',
+        'goverment.regex' =>'الرجاء ادخال المحافظة صحيح',
+        'city.regex'    =>'الرجاء ادخال المركز صحيح',
+        'required'      => 'هذه البيانات مطلوبة',
+        'unique'        => 'هذه القيمة موجودة بالفعل',
+        'email'         =>'ادخل البريد الاليكتروني بطريقة صحيحة',
+        'tele1.regex'   =>'ادخل التليفون صحيح',
+        'tele2.regex'   =>'ادخل التليفون صحيح',
+        'home_phone.regex'=>'ادخل التليفون صحيح',
+        'alpha'         => 'ادخل الحروف صحيحة',
+        'nickname.regex'=>'ادخل التليفون صحيح',
+        'religion.regex'=>'ادخل التليفون صحيح',
+        'fame.regex'    =>'ادخل التليفون صحيح',
+        'tele2.different'=> 'هذه القيمة مكررة',
+        'tele1.different'=> 'هذه القيمة مكررة',
+        'home_phone.different'=> 'هذه القيمة مكررة',
+        'job.regex'=>'ادخل الحروف صحيحة',
         );
 
         $validation = Validator::make($inputs,$rules,$messages);
@@ -822,14 +818,20 @@ $validator = Validator::make(Input::all(), $rules,$messages);
             $contractor->Email = Request::get('mail');
             $contractor->Birthday = Request::get('birthday');
             $contractor->Tele1 = Request::get('tele1');
-            $contractor->Tele2 = Request::get('tele2');
+            if (Request::get('tele2') ==0) {
+                $contractor->Tele2= null;
+            }
+             if (Request::get('home_phone') ==0) {
+                $contractor->Home_Phone= null;
+            }
+            // $contractor->Tele2 = Request::get('tele2');
             $contractor->Job = Request::get('job');
             $contractor->Class = Request::get('class');
             $contractor->Pormoter_Id = Request::get('pormoter_id');
             $contractor->Phone_Type = Request::get('phone_type');
             $contractor->Nickname = Request::get('nickname');
             $contractor->Religion=Request::get('religion');
-            $contractor->Home_Phone=Request::get('home_phone');
+            // $contractor->Home_Phone=Request::get('home_phone');
             $contractor->Fame=Request::get('fame');
 
             $contractor->save();
