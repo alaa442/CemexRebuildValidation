@@ -314,66 +314,80 @@ if (isset($data['password'])) {
                                                 $Sdate_regex = preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/' , $Sdate[0]);
 				                                if ($Sdate_regex == 1 && isset($data['start_date'])) { //date 
 				                                    try {
-				                                           $promoter->save();                	
+				                                           $promoter->save(); 
 				                                        } 
 				                                        catch (Exception $e) {
-				                                            // dd($e);  
-			//if promoter mail  exists .. update it
-			$mail_exist =null;	                                        	
-            $mail_string= "Duplicate entry '".$data['email']."' for key 'promoters_email_unique'";            
-                if ($mail_string == $e->errorInfo[2]) {  
-                        $mail_exist='true';
-                        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
-                }
-                if ($mail_exist == 'true') { //update existing
-                	if(isset($data['email'])){
-						$Pormoter_Id= Promoter::where('Email',$data['email'])->pluck('Pormoter_Id')->first();
-					} 
-					$updated_pro = Promoter::find($Pormoter_Id);
-                	$updated_pro->Pormoter_Name =$data['pormoter_name'];
-					$updated_pro->TelephonNo =$data['telephonno'];
-					$updated_pro->User_Name =$data['user_name'];
-					$updated_pro->Password =$data['password'];
-					$updated_pro->Instegram_Account =$data['instegram_account'];
-					$updated_pro->Facebook_Account =$data['facebook_account'];
-					$updated_pro->Email =$data['email'];
-					$updated_pro->City =$data['city'];
-					$updated_pro->Code=uniqid('Pro');
-					$updated_pro->Experince=$data['experince'];
-					$updated_pro->Government =$data['government'];
-					$updated_pro->Start_Date =$data['start_date'];
-					$updated_pro->Salary =$data['salary'];
-					$updated_pro->save();
-				}
+				                                        	 // dd($e); 
+// zero flags means changed values			
+$phone_flag = 0;
+$mail_flag = 0;
+$username_flag = 0;
+$pass_flag = 0;
 
-				//if promoter phone  exists .. update it
-			$phone_exist =null;	                                        	
-            $phone_string= "Duplicate entry '".ltrim($data['telephonno'], '0')."' for key 'promoters_telephonno_unique'";
-            $phone_string2= "Duplicate entry '".$data['telephonno']."' for key 'promoters_telephonno_unique'";            
-                if ($phone_string == $e->errorInfo[2] || $phone_string2 == $e->errorInfo[2]) {  
-                        $phone_exist='true';
-                        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
-                }
-                if ($phone_exist == 'true') { //update existing
-                	if(isset($data['email'])){
-						$Pormoter_Id= Promoter::where('Email',$data['email'])->pluck('Pormoter_Id')->first();
-					} 
-					$updated_pro = Promoter::find($Pormoter_Id);
-                	$updated_pro->Pormoter_Name =$data['pormoter_name'];
-					$updated_pro->TelephonNo =$data['telephonno'];
-					$updated_pro->User_Name =$data['user_name'];
-					$updated_pro->Password =$data['password'];
-					$updated_pro->Instegram_Account =$data['instegram_account'];
-					$updated_pro->Facebook_Account =$data['facebook_account'];
-					$updated_pro->Email =$data['email'];
-					$updated_pro->City =$data['city'];
-					$updated_pro->Code=uniqid('Pro');
-					$updated_pro->Experince=$data['experince'];
-					$updated_pro->Government =$data['government'];
-					$updated_pro->Start_Date =$data['start_date'];
-					$updated_pro->Salary =$data['salary'];
-					$updated_pro->save();
-				}
+//if promoter exists
+$phone_string= "Duplicate entry '".ltrim($data['telephonno'], '0')."' for key 'promoters_telephonno_unique'";
+$mail_string= "Duplicate entry '".$data['email']."' for key 'promoters_email_unique'";
+$username_string= "Duplicate entry '".$data['user_name']."' for key 'promoters_user_name_unique'";
+$pass_string= "Duplicate entry '".$data['password']."' for key 'promoters_password_unique'";   
+
+    if ($phone_string == $e->errorInfo[2] || $username_string == $e->errorInfo[2]) {  
+        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
+		$Pormoter_Id= Promoter::where('Email',$data['email'])->pluck('Pormoter_Id')->first();
+		$phone_flag = 1;
+	}
+	if ($mail_string == $e->errorInfo[2] || $pass_string == $e->errorInfo[2]) {  
+        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
+		$Pormoter_Id= Promoter::where('TelephonNo',$data['telephonno'])->pluck('Pormoter_Id')->first();
+		$mail_flag = 1;
+	}
+	if ($username_string == $e->errorInfo[2]) {  
+        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
+		$Pormoter_Id= Promoter::where('TelephonNo',$data['telephonno'])->pluck('Pormoter_Id')->first();
+		$username_flag = 1;
+	}
+	if ($pass_string == $e->errorInfo[2]) {  
+        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
+		$Pormoter_Id= Promoter::where('TelephonNo',$data['telephonno'])->pluck('Pormoter_Id')->first();
+		$pass_flag = 1;
+	}	
+	if (isset($Pormoter_Id)){	 //update not unique values
+		$update_promoter = Promoter::find($Pormoter_Id);
+		$update_promoter->Pormoter_Name = (isset($data['pormoter_name']) ? $data['pormoter_name'] : '');
+		$update_promoter->Instegram_Account =(isset($data['instegram_account']) ? $data['instegram_account'] : '');
+		$update_promoter->Facebook_Account =(isset($data['facebook_account']) ? $data['facebook_account'] : '');
+		$update_promoter->City =(isset($data['city']) ? $data['city'] : '');
+		$update_promoter->Code=uniqid('Pro');
+		$update_promoter->Experince=(isset($data['experince']) ? $data['experince'] : '');
+		$update_promoter->Government =(isset($data['government']) ? $data['government'] : '');
+		$update_promoter->Start_Date =(isset($data['start_date']) ? $data['start_date'] : '');
+		$update_promoter->Salary =(isset($data['salary']) ? $data['salary'] : '');
+		$update_promoter->save();
+	}
+	//update unique values
+	if ($phone_flag == 0 ) { //changed phone only
+		$Pormoter_Id= Promoter::where('Email',$data['email'])->pluck('Pormoter_Id')->first();
+		$update_promoter = Promoter::find($Pormoter_Id);
+		$update_promoter->TelephonNo = $data['telephonno'];
+		$update_promoter->save();
+	}
+	if ($pass_flag == 0 ) { //changed pass only
+		$Pormoter_Id= Promoter::where('TelephonNo',$data['telephonno'])->pluck('Pormoter_Id')->first();
+		$update_promoter = Promoter::find($Pormoter_Id);
+		$update_promoter->Password = $data['password'];
+		$update_promoter->save();
+	}
+	if ($username_flag == 0 ) { //changed username only
+		$Pormoter_Id= Promoter::where('TelephonNo',$data['telephonno'])->pluck('Pormoter_Id')->first();
+		$update_promoter = Promoter::find($Pormoter_Id);
+		$update_promoter->User_Name = $data['user_name'];
+		$update_promoter->save();
+	}
+	if ($mail_string == 0 ) { //changed mail only
+		$Pormoter_Id= Promoter::where('TelephonNo',$data['telephonno'])->pluck('Pormoter_Id')->first();
+		$update_promoter = Promoter::find($Pormoter_Id);
+		$update_promoter->Email = $data['email'];
+		$update_promoter->save();
+	}
 
 				                                        }   //end catch                    
 					                		

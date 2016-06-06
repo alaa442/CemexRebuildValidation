@@ -3,6 +3,7 @@
 
 
 <?php
+// dd($_COOKIE);
 //File
   if(!empty($_COOKIE['FileError'])) {     
     echo "<div class='alert alert-block alert-danger fade in center'>";
@@ -10,9 +11,9 @@
     echo "</div>";
   } 
   //Doublepromoter 
-  if(!empty($_COOKIE['Doublepromoter'])) {      
+  if(!empty($_COOKIE['DublePromoterErr'])) {      
     echo "<div><div class='alert alert-block alert-danger fade in center'>";
-    echo $_COOKIE['Doublepromoter'];
+    echo $_COOKIE['DublePromoterErr'];
     echo "</div> </div>";
   } 
 //PromoterErr 

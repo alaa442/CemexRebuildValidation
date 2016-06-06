@@ -109,9 +109,9 @@ body{
           setcookie('PromoterErr', null, -1, '/');     
       }
     //doublicate promoter
-      if (isset($_COOKIE['ReviewErr'])) {
-          unset($_COOKIE['ReviewErr']);
-          setcookie('ReviewErr', null, -1, '/');    
+      if (isset($_COOKIE['DublePromoterErr'])) {
+          unset($_COOKIE['DublePromoterErr']);
+          setcookie('DublePromoterErr', null, -1, '/');    
       }
       
   }
