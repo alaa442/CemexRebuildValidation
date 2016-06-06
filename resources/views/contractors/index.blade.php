@@ -6,10 +6,10 @@
 
 
 <?php
-//Doublecontractor 
-	if(!empty($_COOKIE['Doublecontractor'])) {	    
+//Doublepromoter 
+	if(!empty($_COOKIE['Doublepromoter'])) {	    
 		echo "<div><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Doublecontractor'];
+		echo $_COOKIE['Doublepromoter'];
 		echo "</div> </div>";
 	} 
 //ContractorErr 

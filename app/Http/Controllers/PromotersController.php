@@ -253,54 +253,237 @@ catch (Exception $e)
 	public function destroy($id)
 	{
 		try
-		{ $promoters=Promoter::find($id);
-		$promoters->delete();
-		return redirect('/promoters');
-	}
-	catch(Exception $e)
-	{
+		{ 	
+			$promoters=Promoter::find($id);
+			$promoters->delete();
 			return redirect('/promoters');
+		}
+		catch(Exception $e)
+		{
+				return redirect('/promoters');
 
-	}
+		}
 		
 	}
-	public function importpromoters()
-	{
 
+	public function ValidatePromoter($data){
+		               
+        $PromoterErr = 'البيانات غير صحيحة للمندوب: ';
+        $DublePromoterErr = 'البيانات موجودة بالفعل للمندوب: ';
+
+        $promoter =new Promoter();
+	    $promoter->Pormoter_Name = (isset($data['pormoter_name']) ? $data['pormoter_name'] : '');
+		$promoter->TelephonNo =(isset($data['pormoter_name']) ? $data['telephonno'] : '');
+		$promoter->User_Name =(isset($data['user_name']) ? $data['user_name'] : '');
+		$promoter->Password =(isset($data['password']) ? $data['password'] : '');
+		$promoter->Instegram_Account =(isset($data['instegram_account']) ? $data['instegram_account'] : '');
+		$promoter->Facebook_Account =(isset($data['facebook_account']) ? $data['facebook_account'] : '');
+		$promoter->Email =(isset($data['email']) ? $data['email'] : '');
+		$promoter->City =(isset($data['city']) ? $data['city'] : '');
+		$promoter->Code=uniqid('Pro');
+		$promoter->Experince=(isset($data['experince']) ? $data['experince'] : '');
+		$promoter->Government =(isset($data['government']) ? $data['government'] : '');
+		$promoter->Start_Date =(isset($data['start_date']) ? $data['start_date'] : '');
+		$promoter->Salary =(isset($data['salary']) ? $data['salary'] : '');
+
+		$name_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['pormoter_name']);
+        //name  check
+
+if (isset($data['password'])) {     
+    if (isset($data['pormoter_name'])) {
+        if ($name_regex == 1) { // true pormoter_name 
+            $gov_regex = preg_match('/^[\pL\s]+$/u' , $data['government']);  
+            if ($gov_regex == 1 || !isset($data['government'])) { // true goverment 
+            	$city_regex = preg_match('/^[\pL\s]+$/u' , $data['city']);
+                if ($city_regex == 1 || !isset($data['city'])) { // true city 
+                	$FBAccount_regex = preg_match('/^[\pL\s]+$/u' , $data['facebook_account']);
+                	if ($FBAccount_regex == 1 || !isset($data['facebook_account'])) { // true Facebook 
+                		$InstAccount_regex = preg_match('/^[\pL\s]+$/u' , $data['instegram_account']);
+	                	if ($InstAccount_regex == 1 || !isset($data['instegram_account'])) { // true inst 
+	                		$Exp_regex = preg_match('/^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$/' , $data['experince']);
+	                		if ($Exp_regex == 1 || !isset($data['experince'])) { // true experince  
+	                		    $Telephone_regex = preg_match('/^[0-9]{10,11}$/' , $data['telephonno']);
+                                if ($Telephone_regex == 1 && isset($data['telephonno'])) { // telephonno  
+                                	$email_regex = preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' , $data['email']);
+	                                if ($email_regex == 1) { // mail  
+	                                    $usename_regex = preg_match('/^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+(?:$|\s+)){2,}/u' , $data['user_name']);
+		                                if ($usename_regex == 1 && isset($data['user_name'])) { // user_name  
+		                                	$Salary_regex = preg_match('/^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$/' , $data['salary']);
+			                                if ($Salary_regex == 1 && isset($data['salary'])) { // Salary	
+			                                	$Sdate= explode (' ',$data['start_date']);
+                                                $Sdate_regex = preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/' , $Sdate[0]);
+				                                if ($Sdate_regex == 1 && isset($data['start_date'])) { //date 
+				                                    try {
+				                                           $promoter->save();                	
+				                                        } 
+				                                        catch (Exception $e) {
+				                                            // dd($e);  
+			//if promoter mail  exists .. update it
+			$mail_exist =null;	                                        	
+            $mail_string= "Duplicate entry '".$data['email']."' for key 'promoters_email_unique'";            
+                if ($mail_string == $e->errorInfo[2]) {  
+                        $mail_exist='true';
+                        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
+                }
+                if ($mail_exist == 'true') { //update existing
+                	if(isset($data['email'])){
+						$Pormoter_Id= Promoter::where('Email',$data['email'])->pluck('Pormoter_Id')->first();
+					} 
+					$updated_pro = Promoter::find($Pormoter_Id);
+                	$updated_pro->Pormoter_Name =$data['pormoter_name'];
+					$updated_pro->TelephonNo =$data['telephonno'];
+					$updated_pro->User_Name =$data['user_name'];
+					$updated_pro->Password =$data['password'];
+					$updated_pro->Instegram_Account =$data['instegram_account'];
+					$updated_pro->Facebook_Account =$data['facebook_account'];
+					$updated_pro->Email =$data['email'];
+					$updated_pro->City =$data['city'];
+					$updated_pro->Code=uniqid('Pro');
+					$updated_pro->Experince=$data['experince'];
+					$updated_pro->Government =$data['government'];
+					$updated_pro->Start_Date =$data['start_date'];
+					$updated_pro->Salary =$data['salary'];
+					$updated_pro->save();
+				}
+
+				//if promoter phone  exists .. update it
+			$phone_exist =null;	                                        	
+            $phone_string= "Duplicate entry '".ltrim($data['telephonno'], '0')."' for key 'promoters_telephonno_unique'";
+            $phone_string2= "Duplicate entry '".$data['telephonno']."' for key 'promoters_telephonno_unique'";            
+                if ($phone_string == $e->errorInfo[2] || $phone_string2 == $e->errorInfo[2]) {  
+                        $phone_exist='true';
+                        array_push($GLOBALS['Doublepromoter'],$data['pormoter_name']);
+                }
+                if ($phone_exist == 'true') { //update existing
+                	if(isset($data['email'])){
+						$Pormoter_Id= Promoter::where('Email',$data['email'])->pluck('Pormoter_Id')->first();
+					} 
+					$updated_pro = Promoter::find($Pormoter_Id);
+                	$updated_pro->Pormoter_Name =$data['pormoter_name'];
+					$updated_pro->TelephonNo =$data['telephonno'];
+					$updated_pro->User_Name =$data['user_name'];
+					$updated_pro->Password =$data['password'];
+					$updated_pro->Instegram_Account =$data['instegram_account'];
+					$updated_pro->Facebook_Account =$data['facebook_account'];
+					$updated_pro->Email =$data['email'];
+					$updated_pro->City =$data['city'];
+					$updated_pro->Code=uniqid('Pro');
+					$updated_pro->Experince=$data['experince'];
+					$updated_pro->Government =$data['government'];
+					$updated_pro->Start_Date =$data['start_date'];
+					$updated_pro->Salary =$data['salary'];
+					$updated_pro->save();
+				}
+
+				                                        }   //end catch                    
+					                		
+							                	}
+							                	else {
+							                		array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+							                	}                            
+				                		
+						                	}
+						                	else {
+						                		array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+						                	}	                               
+			                		
+					                	}
+					                	else {
+					                		array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+					                	}	                                
+		                			
+				                	}
+				                	else {
+				                		array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+				                	}	                                             		
+			                	}
+			                	else {
+			                		array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+			                	}	                              
+	                		
+		                	}
+		                	else {
+		                		array_push($GLOBALS['promoter'],$data['pormoter_name']);
+		                	}	
+	                		
+		                }
+		                else {
+		                	array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+		                }
+	                }
+	                else {
+	                	array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+	                }
+
+                }
+                else {
+                	array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+                }
+            }
+            else {
+                	array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+                }
+        }
+        else {
+                	array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+                }    
+     }
+    	else {
+    		array_push($GLOBALS['promoter'],(isset($data['telephonno']) ? $data['telephonno'] : $data['pormoter_name'])); 
+     	}
+    }
+    else {
+            array_push($GLOBALS['promoter'],$data['pormoter_name']); 
+           }  
+
+        if ( !empty ($GLOBALS['promoter'] )) {
+            $GLOBALS['promoter'] = array_unique($GLOBALS['promoter']);
+            $PromoterErr = $PromoterErr.implode(" \n ",$GLOBALS['promoter']);
+            $PromoterErr = nl2br($PromoterErr);  
+            $cookie_name = 'PromoterErr';
+            $cookie_value = $PromoterErr;
+            setcookie($cookie_name, $cookie_value, time() + (60), "/");
+        }
+
+        if ( !empty ($GLOBALS['Doublepromoter'] )) {
+            $GLOBALS['Doublepromoter'] = array_unique($GLOBALS['Doublepromoter']);
+            $DublePromoterErr = $DublePromoterErr.implode(" \n ",$GLOBALS['Doublepromoter']);
+            $DublePromoterErr = nl2br($DublePromoterErr);  
+            $cookie_name = 'DublePromoterErr';
+            $cookie_value = $DublePromoterErr;
+            setcookie($cookie_name, $cookie_value, time() + (60), "/");
+        }
+	} //function end
+
+	public function importpromoters()
+	{			
 		$temp= Request::get('submit'); 
    		if(isset($temp))
  		{ 
+ 			if(!Input::file('file')){  //if no file selected  
+ 				$errFile = "الرجاء اختيار الملف الملطلوب تحميلة";                
+                $cookie_name = 'FileError';
+                $cookie_value = $errFile;
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day
+                return redirect('/promoters');
+ 			}
+ 			unset ($_COOKIE['FileError']);
    			$filename = Input::file('file')->getClientOriginalName();
      		$Dpath = base_path();
      		$upload_success =Input::file('file')->move( $Dpath, $filename);
        Excel::load($upload_success, function($reader)
        {   
-    	$results = $reader->get()->toArray();
-    	// dd($results);
-       	foreach ($results[0] as $data)
-        {
-        	// dd($data);
-	        $promoters =new Promoter();
-	        $promoters->Pormoter_Name =$data['pormoter_name'];
-			$promoters->TelephonNo =$data['telephonno'];
-			$promoters->User_Name =$data['user_name'];
-			$promoters->Password =$data['password'];
-			$promoters->Instegram_Account =$data['instegram_account'];
-			$promoters->Facebook_Account =$data['facebook_account'];
-			$promoters->Email =$data['email'];
-			$promoters->City =$data['city'];
-			$promoters->Code=uniqid('Pro');
-		    $promoters->Experince=$data['experince'];
-			$promoters->Government =$data['government'];
-			$promoters->Start_Date =$data['start_date'];
-			$promoters->Salary =$data['salary'];
-		    $promoters->save();
-        }  
+	    	$results = $reader->get()->toArray();
+	    	$GLOBALS['promoter']= array();   
+			$GLOBALS['Doublepromoter']= array(); 
+	    	for ($i=0; $i < count($results[0]) ; $i++) { 
+	    		app('App\Http\Controllers\PromotersController')->ValidatePromoter($results[0][$i]);
+	    	}
     	});
 	}
-	return redirect('/promoters'); 
-   
+	return redirect('/promoters');    
 }
+
 public function exportpromoters()
 {
 	try {

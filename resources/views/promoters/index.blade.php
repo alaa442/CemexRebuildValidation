@@ -1,14 +1,32 @@
 @extends('master')
 @section('content')
-<!DOCTYPE html>
+
+
+<?php
+//File
+  if(!empty($_COOKIE['FileError'])) {     
+    echo "<div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['FileError'];
+    echo "</div>";
+  } 
+  //Doublepromoter 
+  if(!empty($_COOKIE['Doublepromoter'])) {      
+    echo "<div><div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['Doublepromoter'];
+    echo "</div> </div>";
+  } 
+//PromoterErr 
+  if(!empty($_COOKIE['PromoterErr'])) {     
+    echo "<div><div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['PromoterErr'];
+    echo "</div> </div>";
+  } 
+
+?>
 
 <section class="panel panel-primary">
 <div class="panel-body">
-
-
-  <a href="/promoters/create" class="btn btn-primary" style="margin-bottom: 20px;"> أضافة </a>
-
-
+<a href="/promoters/create" class="btn btn-primary" style="margin-bottom: 20px;"> أضافة </a>
 <table class="table table-hover table-bordered  dt-responsive nowrap display promoters" cellspacing="0" width="100%">
   <thead>
           <th>No</th>

@@ -15,10 +15,10 @@ class CreatePromotersTable extends Migration
         Schema::create('promoters', function (Blueprint $table) {
             $table->increments('Pormoter_Id')->unsigned();
             $table->string('Pormoter_Name',120);
-            $table->integer('TelephonNo');
+            $table->integer('TelephonNo')->unique();
             $table->string('Government',150)->nullable();
             $table->string('City',150)->nullable();
-            $table->string('Email',300)->nullable();
+            $table->string('Email',200)->unique();
             $table->string('Facebook_Account',200)->nullable();
             $table->string('Instegram_Account',200)->nullable();
             $table->string('User_Name',120)->unique();
@@ -27,6 +27,7 @@ class CreatePromotersTable extends Migration
             $table->integer('Experince')->nullable();
             $table->date('Start_Date');
             $table->integer('Salary');
+
 
 
 

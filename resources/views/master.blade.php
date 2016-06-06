@@ -83,24 +83,35 @@ body{
 
 <?php 
   function RemoveCookies(){
+    //contractor
       if (isset($_COOKIE['ContractorErr'])) {
           unset($_COOKIE['ContractorErr']);
           setcookie('ContractorErr', null, -1, '/');     
       }
-
+    //review
       if (isset($_COOKIE['ReviewErr'])) {
           unset($_COOKIE['ReviewErr']);
           setcookie('ReviewErr', null, -1, '/');    
       }
-
+    //file
       if (isset($_COOKIE['FileError'])) {
           unset($_COOKIE['FileError']);
           setcookie('FileError', null, -1, '/');       
       }
-      
+    //doublicate contracyor
       if (isset($_COOKIE['DubleContractorErr'])) {
           unset($_COOKIE['DubleContractorErr']);
           setcookie('DubleContractorErr', null, -1, '/');       
+      }
+    //promoter
+       if (isset($_COOKIE['PromoterErr'])) {
+          unset($_COOKIE['PromoterErr']);
+          setcookie('PromoterErr', null, -1, '/');     
+      }
+    //doublicate promoter
+      if (isset($_COOKIE['ReviewErr'])) {
+          unset($_COOKIE['ReviewErr']);
+          setcookie('ReviewErr', null, -1, '/');    
       }
       
   }
