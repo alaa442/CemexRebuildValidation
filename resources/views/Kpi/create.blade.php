@@ -1,6 +1,23 @@
 @extends('master')
-
 @section('content')
+
+<?php 
+//File
+  if(!empty($_COOKIE['FileError'])) {     
+    echo "<div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['FileError'];
+    echo "</div>";
+  } 
+  //kpiErr 
+  if(!empty($_COOKIE['kpiErr'])) {     
+    echo "<div><div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['kpiErr'];
+    echo "</div> </div>";
+  } 
+
+?>
+
+
 {!!Form::open(['route' => 'Kpi.store','method' => 'post' ,'files' => true ])!!}
 <table class=" table form-group">
  

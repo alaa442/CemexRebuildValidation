@@ -1,7 +1,5 @@
 @extends('master')
-
 @section('content')
-
 
 <section class="panel panel-primary">
 <div class="panel-body">

@@ -587,7 +587,6 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                 foreach ($results[0] as $data) {
                     app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
                 }      
-                // dd($GLOBALS['contractor'],$GLOBALS['Doublecontractor']);         
             }); //end excel
         
         } 
