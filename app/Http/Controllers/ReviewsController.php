@@ -506,11 +506,11 @@ $index5 = 0;
         return view('reviews.QuantityCharts');
     }
 
-    public function ValidateReview($data){  
-        $GLOBALS['review']= array();  
+    public function ValidateReview($data){ 
+        if(!isset($GLOBALS['review'])) { $GLOBALS['review']= array(); } 
         // dd($GLOBALS['Review_Id'], $GLOBALS['Cont_Id']);
-        $ReviewErr = 'مراجعة البيانات غير صحيحة للمقاول: ';    
-        // foreach ($results as $data) {
+        if(!isset($ReviewErr)) {$ReviewErr = 'مراجعة البيانات غير صحيحة للمقاول: ';}      
+
             $review = new Review; 
             $review->Long = $data['long'];
             $review->Lat = $data['lat'];
@@ -806,6 +806,7 @@ $index5 = 0;
     } // end validate review function
 
     public function importreview(){
+        $GLOBALS['review']= array(); 
         $importbtn= Request::get('submit'); 
         if(isset($importbtn))
         { 

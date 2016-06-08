@@ -3,7 +3,6 @@
 
 
 <?php
-// dd($_COOKIE);
 //File
   if(!empty($_COOKIE['FileError'])) {     
     echo "<div class='alert alert-block alert-danger fade in center'>";

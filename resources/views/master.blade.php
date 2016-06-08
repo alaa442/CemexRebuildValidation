@@ -113,7 +113,21 @@ body{
           unset($_COOKIE['DublePromoterErr']);
           setcookie('DublePromoterErr', null, -1, '/');    
       }
-      
+    //VisitsErr
+      if (isset($_COOKIE['VisitsErr'])) {
+          unset($_COOKIE['VisitsErr']);
+          setcookie('VisitsErr', null, -1, '/');    
+      }
+      // NoContVisitsErr
+      if (isset($_COOKIE['NoContVisitsErr'])) {
+          unset($_COOKIE['NoContVisitsErr']);
+          setcookie('NoContVisitsErr', null, -1, '/');    
+      }
+      // NoProVisitsErr
+      if (isset($_COOKIE['NoProVisitsErr'])) {
+          unset($_COOKIE['NoProVisitsErr']);
+          setcookie('NoProVisitsErr', null, -1, '/');    
+      }
   }
 ?>
 

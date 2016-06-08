@@ -1,13 +1,39 @@
 @extends('master')
 @section('content')
 
+<?php 
+  //VisitErr 
+  if(!empty($_COOKIE['VisitsErr'])) {     
+    echo "<div><div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['VisitsErr'];
+    echo "</div> </div>";
+  } 
+//FileErr
+  if(!empty($_COOKIE['FileError'])) {     
+    echo "<div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['FileError'];
+    echo "</div>";
+  } 
+  //NoContVisitsErr
+  if(!empty($_COOKIE['NoContVisitsErr'])) {     
+    echo "<div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['NoContVisitsErr'];
+    echo "</div>";
+  }
+  // NoProVisitsErr
+  if(!empty($_COOKIE['NoProVisitsErr'])) {     
+    echo "<div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['NoProVisitsErr'];
+    echo "</div>";
+  }
+
+?>
+
 <section class="panel panel-primary">
 <div class="panel-body">
-
-
- <a href="/visits/create" class="btn btn-primary"style="margin-bottom: 20px;"> أضافة </a>
-
+<a href="/visits/create" class="btn btn-primary"style="margin-bottom: 20px;"> أضافة </a>
 <table class="table table-hover table-bordered  dt-responsive nowrap display visits" cellspacing="0" width="100% " >
+  
   <thead>
     <th>No</th>
     <th>تعليقات عن المتابعات</th>
@@ -17,7 +43,7 @@
     <th>نوع المشروع</th>
     <th>أنواع الاسمنت</th>
     <th>تاريخ الزيارة أو المكالمة</th>
-      <th>GPS</th>
+    <th>GPS</th>
    <th> رقم الاوردار</th>
    <th>النقاط</th>
    <th>سبب المكالمة</th>

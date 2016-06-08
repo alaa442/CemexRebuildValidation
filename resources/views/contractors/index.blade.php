@@ -6,16 +6,16 @@
 
 
 <?php
-//Doublepromoter 
-	if(!empty($_COOKIE['Doublepromoter'])) {	    
-		echo "<div><div class='alert alert-block alert-danger fade in center'>";
-		echo $_COOKIE['Doublepromoter'];
-		echo "</div> </div>";
-	} 
 //ContractorErr 
 	if(!empty($_COOKIE['ContractorErr'])) {	    
 		echo "<div><div class='alert alert-block alert-danger fade in center'>";
 		echo $_COOKIE['ContractorErr'];
+		echo "</div> </div>";
+	} 
+//DubleContractorErr 
+	if(!empty($_COOKIE['DubleContractorErr'])) {	    
+		echo "<div><div class='alert alert-block alert-danger fade in center'>";
+		echo $_COOKIE['DubleContractorErr'];
 		echo "</div> </div>";
 	} 
 //File
@@ -165,7 +165,7 @@ table.columns().every( function () {
 
 {!!Form::open(['action'=>'ContractorsController@importcontractor','method' => 'post','files'=>true])!!}
     <input type="file" name="file" class="btn btn-primary"/>
-    <input type="submit" name="submit" value="submit" class="btn btn-primary" style="margin-bottom: 20px;"/> 	
+    <input type="submit" name="submit" value="اختيار الملف" class="btn btn-primary" style="margin-bottom: 20px;"/> 	
 {!!Form::close()!!}
 
 {!!Form::open(['action'=>'ContractorsController@expotcontractor','method' => 'post'])!!} 	
