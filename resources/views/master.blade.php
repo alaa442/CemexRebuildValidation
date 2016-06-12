@@ -128,6 +128,17 @@ body{
           unset($_COOKIE['NoProVisitsErr']);
           setcookie('NoProVisitsErr', null, -1, '/');    
       }
+       // KpiErr
+      if (isset($_COOKIE['kpiErr'])) {
+          unset($_COOKIE['kpiErr']);
+          setcookie('kpiErr', null, -1, '/');    
+      }
+       // promoter_kpi
+      if (isset($_COOKIE['prokpiErr'])) {
+          unset($_COOKIE['prokpiErr']);
+          setcookie('prokpiErr', null, -1, '/');    
+      }
+      
   }
 ?>
 

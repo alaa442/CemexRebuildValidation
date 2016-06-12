@@ -1,6 +1,7 @@
 @extends('master')
 @section('content')
 
+
 <?php 
 //File
   if(!empty($_COOKIE['FileError'])) {     
@@ -14,9 +15,14 @@
     echo $_COOKIE['kpiErr'];
     echo "</div> </div>";
   } 
+  //promoter kpi Err 
+  if(!empty($_COOKIE['prokpiErr'])) {     
+    echo "<div><div class='alert alert-block alert-danger fade in center'>";
+    echo $_COOKIE['prokpiErr'];
+    echo "</div> </div>";
+  } 
 
 ?>
-
 
 {!!Form::open(['route' => 'Kpi.store','method' => 'post' ,'files' => true ])!!}
 <table class=" table form-group">
@@ -101,13 +107,13 @@
 
 
 <tr>
-<td>تاريخ الزيارة او المكالمة:</td>
+<th>تاريخ الزيارة او المكالمة:</th>
   <td><input type="date" name=" Date_Visit_Call" ></td>
   <td><input type="file" name="file" class="btn btn-primary" /></td>
  
 </tr>
 <tr>
-<td><input type="submit"name="submit" value="الحفظ"></td>
+<td><input type="submit"name="submit" class="btn btn-primary" value="الحفظ"></td>
 </tr>
 </table>
 {!!Form::close()!!}
