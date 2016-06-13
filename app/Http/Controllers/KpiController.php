@@ -40,14 +40,13 @@ class KpiController extends Controller
 public function store()
 { 
   $GLOBALS['kpi'] = array();
-  $GLOBALS['promoter_kpi'] = array();
+  // $GLOBALS['promoter_kpi'] = array();
   $kpiErr = "البيانات غير صحيحة للمندوب:  ";
-  $prokpiErr = "لا يوجد مندوب للصف رقم:  ";
-  $ErrFlag =0;
-  unset($GLOBALS['Final']);
-  unset($GLOBALS['$Fdata']);
+  // $prokpiErr = "لا يوجد مندوب للصف رقم:  ";
   $GLOBALS['$Fdata'] = [];
-  $GLOBALS['Final'] = [];
+    
+  // unset($GLOBALS['MeshFinal']);
+  // $GLOBALS['MeshFinal'] = [];
 
   $kpi_btn=Request::get('submit');
   $input = request()->all();
@@ -66,24 +65,19 @@ public function store()
     $upload_success =Input::file('file')->move( $Dpath, $filename); 
     Excel::load($upload_success, function($reader)
         {  
-          $RowNumb =0; 
+          // $RowNumb =0; 
           $results = $reader->get();
           $results = $results->toArray(); 
-          foreach ($results[0] as $data)
+          foreach ($results as $data)
             {    
-              $ErrFlag =0;
-              $RowNumb+=1;
-              unset($GLOBALS['Final']);
-              unset($GLOBALS['$Fdata']);
-              $GLOBALS['$Fdata'] = [];
-              $GLOBALS['Final'] = [];
-              
+              // $TempFinal = array();
+              // $RowNumb+=1;
           try {       
+
               $Pormoter_Id= Promoter::where('Code',$data['code'])->pluck('Pormoter_Id')->first();
               $ProName = DB::table('promoters')->select('Pormoter_Name')
                                   ->where('Pormoter_Id', '=',$Pormoter_Id)->first();
               $ProName = $ProName->Pormoter_Name;
-
               $facebook_comment =isset($data['facebook']) ? $data['facebook'] : 0;
               $instgram_follow = isset($data['instgram']) ?$data['instgram']  : 0;
               $Website =isset($data['website']) ?$data['website']  : 0;
@@ -383,7 +377,7 @@ foreach ($GLOBALS['$Fdata'] as $item) {
       $resumation=$sumation*($Anaylsis/100);
       $resumation = ceil(number_format($resumation, 2, '.', ''));
 
-      array_push($GLOBALS['Final'],array('Name'=>$ProName,
+      array_push($TempFinal,array('Name'=>$Name->Pormoter_Name,
                                     'Salary'=>$Salary,
                                     'Backcheck'=>$Anaylsis,
                                     'GPS'=>$GPS,
@@ -412,101 +406,59 @@ foreach ($GLOBALS['$Fdata'] as $item) {
                                     'resumation'=>$resumation
 
                   ));
-      // dd($GLOBALS['Final']);
-       
+          $GLOBALS['MeshFinal'] = $TempFinal; 
+          // dd($GLOBALS['MeshFinal']);
+
       }
                                     }
                                     else { 
                                       array_push($GLOBALS['kpi'],$ProName);
-                                      $ErrFlag =1;
                                     }   
                                   }
                                   else { 
                                     array_push($GLOBALS['kpi'],$ProName);
-                                    $ErrFlag =1;
                                   }           
                                 }
                                 else { 
                                   array_push($GLOBALS['kpi'],$ProName);
-                                  $ErrFlag =1;
                                 }                         
                               }
                               else { 
                                 array_push($GLOBALS['kpi'],$ProName);
-                                $ErrFlag =1;
                               }                            
                             }
                             else { 
                               array_push($GLOBALS['kpi'],$ProName);
-                              $ErrFlag =1;
                             }                           
                           }
                           else { 
                             array_push($GLOBALS['kpi'],$ProName);
-                            $ErrFlag =1;
                           } 
                         }
                         else { 
                           array_push($GLOBALS['kpi'],$ProName);
-                          $ErrFlag =1;
                         } 
                   }
                   else { 
                     array_push($GLOBALS['kpi'],$ProName);
-                    $ErrFlag =1;
                   }
               }
               else { 
                 array_push($GLOBALS['kpi'],$ProName);
-                $ErrFlag =1;
               }    
         } catch (\Exception $e)  { //no promoter
           // dd($e);
            $ErrorMessage = "Trying to get property of non-object";
            if ($ErrorMessage == $e->getMessage()) {
-               array_push($GLOBALS['promoter_kpi'],$RowNumb);
-             }  
-        }
+              array_push($GLOBALS['promoter_kpi'],$RowNumb);
+            }  
+        } // end catch
 
-
-            } //end foreach result
+      } //end foreach result
 
     }); //end excel  
 
 } // end if button set
-
-    if ($ErrFlag == 1) {
-      dd('true');
-         array_push( $GLOBALS['Final'],array('Name'=>'لا يوجد',
-                                    'Salary'=>'0',
-                                    'Backcheck'=>'0',
-                                    'GPS'=>'0',
-                                    'GPS%'=>'0',
-                                    'Work_Day%'=> '0',
-                                    'Work_Day'=> '0',
-                                    'Visit_count'=> '0',
-                                    'Visit_count%'=>'0',
-                                    'Call_count'=>'0',
-                                    'Call_count%'=>'0',
-                                    'Cement_Quantity'=>'0',
-                                    'Cement_Quantity%'=>'0',
-                                    'facebook'=>'0',
-                                    'instgram'=>'0',
-                                    'Website'=>'0',
-                                    'youtube'=>'0',
-                                    'reports'=>'0',
-                                    'newcon'=>'0',
-                                    'facebook%'=>'0',
-                                    'instgram%'=>'0',
-                                    'Website%'=>'0',
-                                    'youtube%'=>'0',
-                                    'reports%'=>'0',
-                                    'newcon%'=>'0',
-                                    'sumation'=>'0',
-                                    'resumation'=>'0'
-
-                  ));
-    }
 
     if ( !empty ($GLOBALS['kpi'] )) {
             $GLOBALS['kpi'] = array_unique($GLOBALS['kpi']);
@@ -526,9 +478,7 @@ foreach ($GLOBALS['$Fdata'] as $item) {
             setcookie($cookie_name, $cookie_value, time() + (60), "/");
 
         }
-
-      dd($GLOBALS['Final']);
-    $Final = $GLOBALS['Final'];
+        $Final = $GLOBALS['MeshFinal'];
     return view('Kpi.index',compact('Final') );
   }
 
