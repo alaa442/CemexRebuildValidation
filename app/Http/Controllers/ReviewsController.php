@@ -508,7 +508,7 @@ $index5 = 0;
 
     public function ValidateReview($data){ 
         if(!isset($GLOBALS['review'])) { $GLOBALS['review']= array(); } 
-        // dd($GLOBALS['Review_Id'], $GLOBALS['Cont_Id']);
+        if(!isset($GLOBALS['Review_Id'])) { $GLOBALS['Review_Id']= null;   } 
         if(!isset($ReviewErr)) {$ReviewErr = 'مراجعة البيانات غير صحيحة للمقاول: ';}      
 
             $review = new Review; 
@@ -681,17 +681,18 @@ $index5 = 0;
                                                                                                             
                                                                                                         }
                                                                                                         catch (\Exception $e){
+                                                                                                            dd($e);
                                                                                                             return redirect('/Charts/TypesCharts');    
                                                                                                         }
 
                                                                                                 }
                                                                                                 else {
-                                                                                                    array_push($GLOBALS['review'],$data['name']);  
+                                                                                                    array_push($GLOBALS['review'],$data['name']); 
                                                                                                 }
 
                                                                                             }
                                                                                             else {
-                                                                                                array_push($GLOBALS['review'],$data['name']);  
+                                                                                                array_push($GLOBALS['review'],$data['name']); 
                                                                                             }
 
                                                                                         }
@@ -711,7 +712,7 @@ $index5 = 0;
 
                                                                             }
                                                                             else {
-                                                                                array_push($GLOBALS['review'],$data['name']);  
+                                                                                array_push($GLOBALS['review'],$data['name']); 
                                                                             }
 
                                                                         }
@@ -736,11 +737,11 @@ $index5 = 0;
 
                                                         }
                                                         else {
-                                                            array_push($GLOBALS['review'],$data['name']);  
+                                                            array_push($GLOBALS['review'],$data['name']); 
                                                         }
                                                     }
                                                     else {
-                                                        array_push($GLOBALS['review'],$data['name']);  
+                                                        array_push($GLOBALS['review'],$data['name']); 
                                                     }
                                                 }
                                                 else {
@@ -767,12 +768,12 @@ $index5 = 0;
                                 }
                             }
                             else {
-                                array_push($GLOBALS['review'],$data['name']);  
+                                array_push($GLOBALS['review'],$data['name']); 
                             }
 
                         }
                         else {
-                            array_push($GLOBALS['review'],$data['name']);  
+                            array_push($GLOBALS['review'],$data['name']); 
                         }
                     }
                     else {
@@ -784,7 +785,7 @@ $index5 = 0;
                 }
             }
             else {
-                array_push($GLOBALS['review'],$data['name']);  
+                array_push($GLOBALS['review'],$data['name']);   
             }
 
 
@@ -820,16 +821,34 @@ $index5 = 0;
             unset ($_COOKIE['FileError']);
             $filename = Input::file('file')->getClientOriginalName();
             $Dpath = base_path();
-            $upload_success =Input::file('file')->move( $Dpath, $filename);       
-            Excel::load($upload_success, function($reader)
-                {       
-                    $results = $reader->get()->toArray(); 
-                    foreach ($results[0] as $data) {
-                        app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
-                        app('App\Http\Controllers\ReviewsController')->ValidateReview($data);
-                    }
+            $upload_success =Input::file('file')->move( $Dpath, $filename); 
+
+            // xls to csv conversion
+            $nameOnly = explode(".",$filename);
+            $newCSV =$nameOnly[0]."."."csv";
+            $PathnewCSV= $Dpath."/".$newCSV ;
+            $myfile = fopen($PathnewCSV, "w");
+
+        app('App\Http\Controllers\ContractorsController')->convertXLStoCSV($upload_success, $PathnewCSV);
+
+        Excel::filter('chunk')->selectSheetsByIndex(0)->load($PathnewCSV)->chunk(150, function($results){ 
+                $data = $results->toArray();
+                foreach($data as $data1) {
+                    app('App\Http\Controllers\ReviewsController')->ValidateReview($data1);
+                }
+        });
+        //remove temperorary csv file
+        unlink($PathnewCSV);
+
+            // Excel::load($upload_success, function($reader)
+            //     {       
+            //         $results = $reader->get()->toArray(); 
+            //         foreach ($results[0] as $data) {
+            //             app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
+            //             app('App\Http\Controllers\ReviewsController')->ValidateReview($data);
+            //         }
                    
-                });  //end excel
+            //     });  //end excel
 
             return redirect('/Charts/TypesCharts');           
         }   //end if import btn  

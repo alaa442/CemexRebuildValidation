@@ -16,6 +16,7 @@ use App\ContractorReport;
 use Redirect;
 use Log;
 use Session;
+use PHPExcel_IOFactory;
 
 class ContractorsController extends Controller
 {
@@ -49,10 +50,10 @@ class ContractorsController extends Controller
         $phone_arry = array('yesCount'=>0,'noCount'=>0,'notRecordedCount'=>0);
 
         for ($i=0; $i<count($contractors); $i++) {           
-            if ($contractors[$i]->Phone_Type == 'ﻢﻌﻧ') {
+            if ($contractors[$i]->Phone_Type == 'نعم') {
                 $PhoneyesCount +=1;
             }
-            else if ($contractors[$i]->Phone_Type == 'ﻻ') {
+            else if ($contractors[$i]->Phone_Type == 'لا') {
                 $PhonenoCount +=1;
             }
             else if ($contractors[$i]->Phone_Type == null) {
@@ -81,10 +82,10 @@ class ContractorsController extends Controller
         $CompnotRecordedCount = 0; 
         $Computer_arry = array('yesCount'=>0,'noCount'=>0,'notRecordedCount'=>0);
         for ($i=0; $i<count($contractors); $i++) {           
-            if ($contractors[$i]->Computer == 'ﻢﻌﻧ') {
+            if ($contractors[$i]->Computer == 'نعم') {
                 $CompyesCount +=1;
             }
-            else if ($contractors[$i]->Computer == 'ﻻ') {
+            else if ($contractors[$i]->Computer == 'لا') {
                 $CompnoCount +=1;
             }
             else if ($contractors[$i]->Computer == null) {
@@ -108,10 +109,10 @@ class ContractorsController extends Controller
         $Facebook_arry = array('yesCount'=>0,'noCount'=>0,'notRecordedCount'=>0);
 
         for ($i=0; $i<count($contractors); $i++) {           
-            if ($contractors[$i]->Has_Facebook == 'ﻢﻌﻧ') {
+            if ($contractors[$i]->Has_Facebook == 'نعم') {
                 $FaceyesCount +=1;
             }
-            else if ($contractors[$i]->Has_Facebook == 'ﻻ') {
+            else if ($contractors[$i]->Has_Facebook == 'لا') {
                 $FacenoCount +=1;
             }
             else if ($contractors[$i]->Has_Facebook == null) {
@@ -138,10 +139,10 @@ class ContractorsController extends Controller
         for ($i=0; $i<count($contractors); $i++) { 
             $review = $contractors[$i]->getreview; 
             if ($review) {                            
-                if ($review->Has_Mixers == 'ﻢﻌﻧ') {
+                if ($review->Has_Mixers == 'نعم') {
                         $MixyesCount +=1;
                     }
-                    else if ($review->Has_Mixers == 'ﻻ') {
+                    else if ($review->Has_Mixers == 'لا') {
                         $MixnoCount +=1;
                     }
                     else if ($review->Has_Mixers == null) {
@@ -168,10 +169,10 @@ class ContractorsController extends Controller
         for ($i=0; $i<count($contractors); $i++) { 
             $review = $contractors[$i]->getreview;
             if ($review) {                  
-                if ($review->Has_Sub_Contractor == 'ﻢﻌﻧ') {
+                if ($review->Has_Sub_Contractor == 'نعم') {
                     $SubyesCount +=1;
                 }
-                else if ($review->Has_Sub_Contractor == 'ﻻ') {
+                else if ($review->Has_Sub_Contractor == 'لا') {
                     $SubnoCount +=1;
                 }
                 else if ($review->Has_Sub_Contractor == null) {
@@ -320,6 +321,7 @@ class ContractorsController extends Controller
     }
 
     public function ValidateContractor($data){ 
+        
         if(!isset($GLOBALS['contractor'])) { $GLOBALS['contractor']= array(); } 
         if(!isset($GLOBALS['Review_Id'])) { $GLOBALS['Review_Id']= null;   } 
         if(!isset($GLOBALS['Doublecontractor'])) { $GLOBALS['Doublecontractor']= array(); } 
@@ -327,6 +329,9 @@ class ContractorsController extends Controller
         if(!isset($ContractorErr)) { $ContractorErr = 'البيانات غير صحيحة للمقاول: '; }      
         if(!isset($DubleContractorErr)) { $DubleContractorErr = 'البيانات موجودة بالفعل للمقاول: '; }  
     
+$data['birthday'] = strtotime($data['birthday']);
+$data['birthday'] = date('Y-m-d',$data['birthday']);
+
         $contractor =new Contractor();
         $contractor->Name = $data['name'];
         $contractor->Goverment = $data['gov'];
@@ -383,22 +388,22 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                                             if ($Mail_regex == 1 || !isset($data['email'])) { //mail  
                                                 //yes or no value validation
                                                 if($data['computer'] != null ){
-                                                    if($data['computer'] != "ﻢﻌﻧ" ){
-                                                        if($data['computer'] != "ﻻ"){         
+                                                    if($data['computer'] != "نعم" ){
+                                                        if($data['computer'] != "لا"){         
                                                             array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
                                                 } // end computer check
                                                 if($data['has_facebook'] != null ){
-                                                    if($data['has_facebook'] != "ﻢﻌﻧ" ){
-                                                        if($data['has_facebook'] != "ﻻ"){         
+                                                    if($data['has_facebook'] != "نعم" ){
+                                                        if($data['has_facebook'] != "لا"){         
                                                             array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
                                                 } // end has_facebook check
                                                 if($data['phone_type'] != null ){
-                                                    if($data['phone_type'] != "ﻢﻌﻧ" ){
-                                                        if($data['phone_type'] != "ﻻ"){         
+                                                    if($data['phone_type'] != "نعم" ){
+                                                        if($data['phone_type'] != "لا"){         
                                                             array_push($GLOBALS['contractor'],$data['name']); 
                                                         }
                                                     }   
@@ -559,8 +564,25 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
        
 }
 
+
+public function convertXLStoCSV($infile,$outfile)
+{
+    $fileType = PHPExcel_IOFactory::identify($infile);
+    $objReader = PHPExcel_IOFactory::createReader($fileType);
+
+    $objReader->setReadDataOnly(false);   
+    $objPHPExcel = $objReader->load($infile);    
+
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+    $objWriter->save($outfile);
+                    // dd('Mesh dosent');
+}
+
     public function importcontractor()
     {     
+        ini_set('max_execution_time', 300);
+        // dd(phpinfo());
+        // die();
         $GLOBALS['contractor']= array();   
         $GLOBALS['Review_Id']= null;   
         $GLOBALS['Doublecontractor']= array(); 
@@ -573,21 +595,39 @@ $Contractor_Id= Contractor::where('Tele1',$data['mobile1'])->pluck('Contractor_I
                 $errFile = "الرجاء اختيار الملف الملطلوب تحميلة";                
                 $cookie_name = 'FileError';
                 $cookie_value = $errFile;
-                setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day
+                setcookie($cookie_name, $cookie_value, time() + (60), "/"); 
                 return redirect('/contractors');
             } 
             unset ($_COOKIE['FileError']);
             $filename = Input::file('file')->getClientOriginalName();            
             $Dpath = base_path();
             $upload_success =Input::file('file')->move( $Dpath, $filename);
-                      
-        Excel::load($upload_success, function($reader)
-            {                       
-                $results = $reader->get()->toArray();
-                foreach ($results[0] as $data) {
-                    app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
-                }      
-            }); //end excel
+            
+            // xls to csv conversion
+            $nameOnly = explode(".",$filename);
+            $newCSV =$nameOnly[0]."."."csv";
+            $PathnewCSV= $Dpath."/".$newCSV ;
+            $myfile = fopen($PathnewCSV, "w");
+
+        app('App\Http\Controllers\ContractorsController')->convertXLStoCSV($upload_success, $PathnewCSV);
+            
+            Excel::filter('chunk')->selectSheetsByIndex(0)->load($PathnewCSV)->chunk(150, function($results){ 
+                    $data = $results->toArray();
+                    foreach($data as $data1) {
+                            app('App\Http\Controllers\ContractorsController')->ValidateContractor($data1);
+                    }
+            });
+            //remove temperorary csv file
+            unlink($PathnewCSV);
+
+        // Excel::load($upload_success, function($reader)
+        //     {                       
+        //         $results = $reader->get()->toArray();
+        //         // dd($results);
+        //         foreach ($results as $data) {
+        //             app('App\Http\Controllers\ContractorsController')->ValidateContractor($data);
+        //         }  
+        //     }); //end excel
         
         } 
         return redirect('/contractors');            

@@ -90,12 +90,20 @@ public function store()
     $upload_success =Input::file('file')->move( $Dpath, $filename); 
     $GLOBALS['$Fdata'] = [];
 
-    Excel::load($upload_success, function($reader)
-        {   
-          $RowNumb=0;
-          $results = $reader->get();
-          $results = $results->toArray(); 
+  // xls to csv conversion
+        $nameOnly = explode(".",$filename);
+        $newCSV =$nameOnly[0]."."."csv";
+        $PathnewCSV= $Dpath."/".$newCSV ;
+        $myfile = fopen($PathnewCSV, "w");
 
+        app('App\Http\Controllers\ContractorsController')->convertXLStoCSV($upload_success, $PathnewCSV);
+        // Excel::load($upload_success, function($reader){
+
+         Excel::filter('chunk')->selectSheetsByIndex(0)->load($PathnewCSV)->chunk(150, function($results){ 
+          $results = $results->toArray();          
+          $RowNumb=0;
+          // $results = $reader->get();
+          // $results = $results->toArray(); 
           foreach ($results as $data)
           {    
               $RowNumb+=1;
@@ -105,7 +113,7 @@ public function store()
                                 ->where('Pormoter_Id', '=',$Pormoter_Id)->first();
                   $ProName = $ProName->Pormoter_Name;
               }
-            catch (\Exception $e) {
+            catch (\Exception $e) { //if no promoter with this code
                 $ErrorMessage = "Trying to get property of non-object";
                 if ($ErrorMessage == $e->getMessage()) {
                   array_push($GLOBALS['promoter_kpi'],$RowNumb);

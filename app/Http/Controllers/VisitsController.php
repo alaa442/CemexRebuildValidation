@@ -334,8 +334,11 @@ if ($validator->fails()) {
   	if(!isset($NoContVisitsErr)) {$NoContVisitsErr= 'لا يوجد مقاول للزيارة التي بتاريخ: '; }
   	if(!isset($NoProVisitsErr)) {$NoProVisitsErr = 'لا يوجد مندوب للزيارة التي بتاريخ: '; }
 
-  	$visit =new Visit();
-    $visit->Month =$data['month'];
+$data['date_visit_call'] = strtotime($data['date_visit_call']);
+$data['date_visit_call'] = date('Y-m-d',$data['date_visit_call']);
+
+  $visit =new Visit();
+  $visit->Month =$data['month'];
 	$visit->Date_Visit_Call =$data['date_visit_call'];
 	$visit->Seller_Name =$data['seller_name'];
 	$id= Contractor::where('Tele1',$data['tele1'])->pluck('Contractor_Id')->first();
@@ -348,7 +351,7 @@ if ($validator->fails()) {
 	$visit->Visit_Reason =$data['visit_reason'];
 	$visit->Call_Reason =$data['call_reason'];
 	$visit->Project_Current_State=$data['project_current_state'];
-    $visit->Cement_Type=$data['cement_type'];
+  $visit->Cement_Type=$data['cement_type'];
 	$visit->Cement_Quantity =$data['cement_quantity'];
 	$visit->Points =$data['points'];
 	$visit->Backcheck =$data['backcheck'];
@@ -566,7 +569,7 @@ $project_state_regex = preg_match('/^[\pL\s]+$/u' , $data['project_current_state
 
 public function importvisit()
 { 
-	$GLOBALS['visits']= array();
+	  $GLOBALS['visits']= array();
   	$GLOBALS['cont_visits'] = array();
   	$GLOBALS['pro_visits']= array();
 
@@ -580,18 +583,38 @@ public function importvisit()
             setcookie($cookie_name, $cookie_value, time() + (60), "/"); // 86400 = 1 day
             return redirect('/visits');
         } 
-        unset ($_COOKIE['FileError']);
+      unset ($_COOKIE['FileError']);
     	$filename = Input::file('file')->getClientOriginalName();
     	$Dpath = base_path();
     	$upload_success =Input::file('file')->move( $Dpath, $filename);
-        Excel::load($upload_success, function($reader)
-        {    
-        	$results = $reader->get()->all();
-         	foreach ($results as $data)
-         	{
-        	  	app('App\Http\Controllers\VisitsController')->ValidateVisit($data);
-         	}
-     	});
+        
+       // xls to csv conversion
+        $nameOnly = explode(".",$filename);
+        $newCSV =$nameOnly[0]."."."csv";
+        $PathnewCSV= $Dpath."/".$newCSV ;
+        $myfile = fopen($PathnewCSV, "w");
+
+        app('App\Http\Controllers\ContractorsController')->convertXLStoCSV($upload_success, $PathnewCSV);
+
+        Excel::filter('chunk')->selectSheetsByIndex(0)->load($PathnewCSV)->chunk(150, function($results){ 
+                $data = $results->toArray();
+                foreach($data as $data1) {
+                    app('App\Http\Controllers\VisitsController')->ValidateVisit($data1);
+                }
+        });
+        //remove temperorary csv file
+        unlink($PathnewCSV);
+
+      // Excel::load($upload_success, function($reader)
+      //   {    
+      //   	$results = $reader->get()->all();
+      //    	foreach ($results as $data)
+      //    	{
+      //   	  	app('App\Http\Controllers\VisitsController')->ValidateVisit($data);
+      //    	}
+     	// });
+
+
  	} //end if
          return redirect('/visits');
 }

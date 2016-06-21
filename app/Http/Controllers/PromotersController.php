@@ -267,9 +267,15 @@ catch (Exception $e)
 	}
 
 	public function ValidatePromoter($data){
-		               
-        $PromoterErr = 'البيانات غير صحيحة للمندوب: ';
-        $DublePromoterErr = 'البيانات موجودة بالفعل للمندوب: ';
+		         
+		if(!isset($GLOBALS['promoter'])) { $GLOBALS['promoter']= array(); } 
+        if(!isset($GLOBALS['Doublepromoter'])) { $GLOBALS['Doublepromoter']= array(); } 
+
+        if(!isset($PromoterErr)) { $PromoterErr = 'البيانات غير صحيحة للمندوب: '; }      
+        if(!isset($DublePromoterErr)) { $DublePromoterErr = 'البيانات موجودة بالفعل للمندوب: '; }  
+
+$data['start_date'] = strtotime($data['start_date']);
+$data['start_date'] = date('Y-m-d',$data['start_date']);
 
         $promoter =new Promoter();
 	    $promoter->Pormoter_Name = (isset($data['pormoter_name']) ? $data['pormoter_name'] : '');
@@ -471,6 +477,7 @@ $pass_string= "Duplicate entry '".$data['password']."' for key 'promoters_passwo
 
 	public function importpromoters()
 	{			
+		ini_set('max_execution_time', 300);
 		$temp= Request::get('submit'); 
    		if(isset($temp))
  		{ 
@@ -484,16 +491,36 @@ $pass_string= "Duplicate entry '".$data['password']."' for key 'promoters_passwo
  			unset ($_COOKIE['FileError']);
    			$filename = Input::file('file')->getClientOriginalName();
      		$Dpath = base_path();
-     		$upload_success =Input::file('file')->move( $Dpath, $filename);
-       Excel::load($upload_success, function($reader)
-       {   
-	    	$results = $reader->get()->toArray();
-	    	$GLOBALS['promoter']= array();   
-			$GLOBALS['Doublepromoter']= array(); 
-	    	for ($i=0; $i < count($results[0]) ; $i++) { 
-	    		app('App\Http\Controllers\PromotersController')->ValidatePromoter($results[0][$i]);
-	    	}
-    	});
+     		$upload_success =Input::file('file')->move( $Dpath, $filename); 
+
+     		//xls to csv conversion
+            $nameOnly = explode(".",$filename);
+            $newCSV =$nameOnly[0]."."."csv";
+            $PathnewCSV= $Dpath."/".$newCSV ;
+            $myfile = fopen($PathnewCSV, "w");
+
+            app('App\Http\Controllers\ContractorsController')->convertXLStoCSV($upload_success, $PathnewCSV);
+            // die();
+
+            Excel::filter('chunk')->selectSheetsByIndex(0)->load($PathnewCSV)->chunk(150, function($results){ 
+                $data = $results->toArray();
+                foreach($data as $data1) {
+                        app('App\Http\Controllers\PromotersController')->ValidatePromoter($data1);
+                }
+            });
+            // remove temperorary csv file
+            unlink($PathnewCSV);
+
+   //     Excel::load($upload_success, function($reader)
+   //     {   
+	  //   	$results = $reader->get()->toArray();
+	  //   	$GLOBALS['promoter']= array();   
+			// $GLOBALS['Doublepromoter']= array(); 
+	  //   	for ($i=0; $i < count($results[0]) ; $i++) { 
+	  //   		app('App\Http\Controllers\PromotersController')->ValidatePromoter($results[0][$i]);
+	  //   	}
+   //  	});
+
 	}
 	return redirect('/promoters');    
 }
